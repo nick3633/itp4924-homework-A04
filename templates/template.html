@@ -1,9 +1,17 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>{{ title }}</title>
+    <title>{{ title }}ASP.NET</title>
 </head>
 <body>
+{% with messages = get_flashed_messages() %}
+    {% if messages %}
+        {% for message in messages %}
+            <p>{{ message }}</p>
+        {% endfor %}
+        <hr>
+    {% endif %}
+{% endwith %}
 {% block page_content %}{% endblock %}
 </body>
 </html>
