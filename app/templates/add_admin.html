@@ -1,0 +1,36 @@
+{% extends "template.html" %}
+
+{% block page_content %}
+    <h1>Add Admin</h1>
+    <form action="" method="post">
+        {{ form.hidden_tag() }}
+        <p>
+            {{ form.user_id.label }} {{ form.user_id(size=32) }}
+            {% for error in form.user_id.errors %}
+                {{ error }}
+            {% endfor %}
+            <br>
+            {{ form.email.label }} {{ form.email(size=64) }}
+            {% for error in form.email.errors %}
+                {{ error }}
+            {% endfor %}
+            <br>
+            {{ form.password.label }} {{ form.password(size=32) }}
+            {% for error in form.password.errors %}
+                {{ error }}
+            {% endfor %}
+            <br>
+            {{ form.password_confirm.label }} {{ form.password_confirm(size=32) }}
+            {% for error in form.password_confirm.errors %}
+                {{ error }}
+            {% endfor %}
+            <br>
+            {{ form.verification_key.label }} {{ form.verification_key(size=32) }}
+            {% for error in form.verification_key.errors %}
+                {{ error }}
+            {% endfor %}
+        </p>
+        <p>{{ form.submit() }}</p>
+    </form>
+
+{% endblock %}
