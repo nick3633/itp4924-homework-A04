@@ -5,4 +5,14 @@
     <ul>
         <li><a href="{{ url_for('add_admin') }}">Add Admin</a></li>
     </ul>
+    <hr>
+    <h2>List of admins</h2>
+    <table>
+    {% for admin in admin_list %}
+            <tr>
+                <td>{{ admin.user_id }}</td>
+                <td>{{ admin.email }}</td>
+            </tr>
+    {% endfor %}
+    </table>
 {% endblock %}

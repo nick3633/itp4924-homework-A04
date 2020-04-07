@@ -17,7 +17,8 @@ def home():
 def admin_home():
     if not current_user.is_authenticated:
         return redirect(url_for('admin_login'))
-    return render_template('admin_home.html', title='Admin Home - ')
+    admin_list = Admin.query
+    return render_template('admin_home.html', title='Admin Home - ', admin_list=admin_list)
 
 
 @app.route('/admin_login.html', methods=['GET', 'POST'])
