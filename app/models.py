@@ -2,6 +2,7 @@ from app import db, login
 from flask_login import UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
 
+
 class Admin(UserMixin, db.Model):
     user_id = db.Column(db.String(64), primary_key=True, index=True, unique=True)
     email = db.Column(db.String(128), index=True, unique=True)
@@ -19,6 +20,7 @@ class Admin(UserMixin, db.Model):
     def get_id(self):
         return (self.user_id)
     # https://stackoverflow.com/questions/37472870/login-user-fails-to-get-user-id (4/7/2020 1:15AM)
+
 
 @login.user_loader
 def load_user(user_id):

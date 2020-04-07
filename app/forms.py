@@ -9,6 +9,7 @@ class AdminLoginForm(FlaskForm):
     password = PasswordField('Password', validators=[DataRequired()])
     submit = SubmitField('Login')
 
+
 class AddAdminForm(FlaskForm):
     user_id = StringField('User ID', validators=[DataRequired()])
     email = StringField('Email', validators=[DataRequired(), Email()])

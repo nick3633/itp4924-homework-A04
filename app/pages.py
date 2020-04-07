@@ -13,19 +13,26 @@ def home():
     return render_template('home.html', title='')
 
 
+@app.route('/admin_home.html')
+def admin_home():
+    if not current_user.is_authenticated:
+        return redirect(url_for('admin_login'))
+    return render_template('admin_home.html', title='Admin Home - ')
+
+
 @app.route('/admin_login.html', methods=['GET', 'POST'])
 def admin_login():
     if current_user.is_authenticated:
-        return redirect(url_for('home'))
+        return redirect(url_for('admin_home'))
     form = AdminLoginForm()
     if form.validate_on_submit():
         user = Admin.query.filter_by(user_id=form.user_id.data).first()
         if user is None or not user.check_password(form.password.data):
             flash('User ID or password is not correct')
-            return redirect(url_for('admin_login'))
+            return render_template('admin_login.html', title='Admin Login - ', form=form)
         login_user(user, remember=False)
         # https://stackoverflow.com/questions/37472870/login-user-fails-to-get-user-id (4/7/2020 1:15AM)
-        return redirect(url_for('home'))
+        return redirect(url_for('admin_home'))
     return render_template('admin_login.html', title='Admin Login - ', form=form)
 
 
@@ -44,10 +51,13 @@ def add_admin():
         if check_user is not None or check_email is not None:
             flash('This user ID or Email already used.')
             return render_template('add_admin.html', title='Add Admin - ', form=form)
+        if form.verification_key.data != 'O8afSh2OHdqyKvJyzeS4XKXQ':
+            flash('The verification key is not correct.')
+            return render_template('add_admin.html', title='Add Admin - ', form=form)
         user = Admin(user_id=form.user_id.data, email=form.email.data)
         user.set_password(form.password.data)
         db.session.add(user)
         db.session.commit()
         flash('Added a new admin.')
-        return redirect(url_for('home'))
+        return redirect(url_for('admin_home'))
     return render_template('add_admin.html', title='Add Admin - ', form=form)
