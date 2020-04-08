@@ -9,14 +9,41 @@
     </p>
     <p align="center">Supported on Windows, Linux, and macOS</p>
     <hr>
+    {% if current_user.is_authenticated %}
+        <p>functions block</p>
+    {% endif %}
     {% for block in home_function_block %}
         <div style="border: 1px solid; border-color: grey;">
-        <h3>{{ block.title }}</h3>
-        <p>{{ block.content }}</p>
-        {% if current_user.is_authenticated %}
-            <p>(block id: {{ block.id }}, edited by: {{ block.editor_user_id }})</p>
-        {% endif %}
+            <h3>{{ block.title }}</h3>
+            <p>{{ block.content }}</p>
+            {% if current_user.is_authenticated %}
+                <p>(block id: {{ block.id }}, edited by: {{ block.editor_user_id }})</p>
+            {% endif %}
         </div>
 
     {% endfor %}
+    {% if current_user.is_authenticated %}
+        <p>add content to functions block</p>
+        <form action="" method="post">
+            {{ form_home_func_block_add.hidden_tag() }}
+            <p>
+                {{ form_home_func_block_add.title.label }} {{ form_home_func_block_add.title }}
+                {% for error in form_home_func_block_add.title.errors %}
+                    {{ error }}
+                {% endfor %}
+                <br>
+                {{ form_home_func_block_add.icon.label }} {{ form_home_func_block_add.icon }}
+                {% for error in form_home_func_block_add.icon.errors %}
+                    {{ error }}
+                {% endfor %}
+                <br>
+                {{ form_home_func_block_add.content.label }} {{ form_home_func_block_add.content }}
+                {% for error in form_home_func_block_add.content.errors %}
+                    {{ error }}
+                {% endfor %}
+                <br>
+            </p>
+            <p>{{ form_home_func_block_add.submit() }}</p>
+        </form>
+    {% endif %}
 {% endblock %}

@@ -3,15 +3,28 @@ from flask_login import login_user, logout_user, current_user, login_required
 from werkzeug.urls import url_parse
 from werkzeug.security import generate_password_hash, check_password_hash
 from app import app, db
-from app.forms import AdminLoginForm, AddAdminForm
+from app.forms import home_function_block_add , AdminLoginForm, AddAdminForm
 from app.models import Admin, home_functions_block
 
 
-@app.route('/')
-@app.route('/home.html')
+@app.route('/', methods=['GET', 'POST'])
+@app.route('/home.html', methods=['GET', 'POST'])
 def home():
     home_function_block = home_functions_block.query
-    return render_template('home.html', title='', home_function_block=home_function_block)
+    form_home_func_block_add = home_function_block_add()
+    if form_home_func_block_add.validate_on_submit():
+        func_add = home_functions_block(
+            title=form_home_func_block_add.title.data,
+            icon=form_home_func_block_add.icon.data,
+            content=form_home_func_block_add.content.data,
+            editor_user_id=current_user.user_id
+        )
+        db.session.add(func_add)
+        db.session.commit()
+        flash('content added on functions block in home.html')
+        return redirect(url_for('home'))
+    return render_template('home.html', title='', home_function_block=home_function_block,
+                           form_home_func_block_add=form_home_func_block_add)
 
 
 @app.route('/admin_home.html')
