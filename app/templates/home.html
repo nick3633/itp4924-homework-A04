@@ -7,4 +7,16 @@
         <button>Get Started</button>
         <button>Download</button>
     </p>
+    <p align="center">Supported on Windows, Linux, and macOS</p>
+    <hr>
+    {% for block in home_function_block %}
+        <div style="border: 1px solid; border-color: grey;">
+        <h3>{{ block.title }}</h3>
+        <p>{{ block.content }}</p>
+        {% if current_user.is_authenticated %}
+            <p>(block id: {{ block.id }}, edited by: {{ block.editor_user_id }})</p>
+        {% endif %}
+        </div>
+
+    {% endfor %}
 {% endblock %}

@@ -25,3 +25,14 @@ class Admin(UserMixin, db.Model):
 @login.user_loader
 def load_user(user_id):
     return Admin.query.get(user_id)
+
+
+class home_functions_block(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(64))
+    icon = db.Column(db.String(256))
+    content = db.Column(db.String(256))
+    editor_user_id = db.Column(db.String(64), db.ForeignKey('admin.user_id'))
+
+    def __repr__(self):
+        return '<home_functions_block {}>'.format(self.id)

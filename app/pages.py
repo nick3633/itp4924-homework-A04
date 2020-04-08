@@ -4,13 +4,14 @@ from werkzeug.urls import url_parse
 from werkzeug.security import generate_password_hash, check_password_hash
 from app import app, db
 from app.forms import AdminLoginForm, AddAdminForm
-from app.models import Admin
+from app.models import Admin, home_functions_block
 
 
 @app.route('/')
 @app.route('/home.html')
 def home():
-    return render_template('home.html', title='')
+    home_function_block = home_functions_block.query
+    return render_template('home.html', title='', home_function_block=home_function_block)
 
 
 @app.route('/admin_home.html')
