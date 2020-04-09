@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, BooleanField, SubmitField, TextAreaField
+from wtforms import StringField, PasswordField, BooleanField, SubmitField, TextAreaField, SelectField
 from wtforms.validators import DataRequired, ValidationError, Email, EqualTo
 from app.models import Admin
 
@@ -9,6 +9,15 @@ class home_function_block_add(FlaskForm):
     icon = StringField('Icon URL')
     content = TextAreaField('Content', validators=[DataRequired()])
     submit = SubmitField('Add')
+
+
+class home_function_block_edit(FlaskForm):
+    title = StringField('Title', validators=[DataRequired()])
+    icon = StringField('Icon URL')
+    content = TextAreaField('Content', validators=[DataRequired()])
+    editype = SelectField('Action ', choices=[('edit', 'Edit'), ('delete', 'Delete')], validators=[DataRequired()])
+    # https://wtforms.readthedocs.io/en/stable/fields.html (4/9/2020 4:19PM)
+    submit = SubmitField('Apply')
 
 
 class AdminLoginForm(FlaskForm):

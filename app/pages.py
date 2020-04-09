@@ -3,7 +3,7 @@ from flask_login import login_user, logout_user, current_user, login_required
 from werkzeug.urls import url_parse
 from werkzeug.security import generate_password_hash, check_password_hash
 from app import app, db
-from app.forms import home_function_block_add , AdminLoginForm, AddAdminForm
+from app.forms import *
 from app.models import Admin, home_functions_block
 
 
@@ -25,6 +25,39 @@ def home():
         return redirect(url_for('home'))
     return render_template('home.html', title='', home_function_block=home_function_block,
                            form_home_func_block_add=form_home_func_block_add)
+
+
+@app.route('/home_function_block_edit/<id>', methods=['GET', 'POST'])
+def home_func_block_edit(id):
+    if not current_user.is_authenticated:
+        return redirect(url_for('admin_login'))
+    form_home_func_block_edit = home_function_block_edit()
+
+    if form_home_func_block_edit.validate_on_submit():
+        if form_home_func_block_edit.editype.data == 'edit':
+            func_edit = home_functions_block.query.filter_by(id=id).first()
+            func_edit.title = form_home_func_block_edit.title.data
+            func_edit.icon = form_home_func_block_edit.icon.data
+            func_edit.content = form_home_func_block_edit.content.data
+            func_edit.editor_user_id = current_user.user_id
+
+            db.session.commit()
+            flash('edited content id: ' + id + ' on functions block in home.html')
+        elif form_home_func_block_edit.editype.data == 'delete':
+            home_functions_block.query.filter_by(id=id).delete()
+            db.session.commit()
+            flash('deleted content id: ' + id + ' on functions block in home.html')
+            # https://stackoverflow.com/questions/27158573/how-to-delete-a-record-by-id-in-flask-sqlalchemy (4/9/2020 4:x9PM)
+        return redirect(url_for('home'))
+    elif request.method == 'GET':
+
+        form_home_func_block_edit.title.data = db.session.query(home_functions_block.title).filter_by(id=id).first()
+        form_home_func_block_edit.icon.data = db.session.query(home_functions_block.icon).filter_by(id=id).first()
+        form_home_func_block_edit.content.data = db.session.query(home_functions_block.content).filter_by(id=id).first()
+
+    return render_template('home_function_block_edit.html', title='Editing block Functions in home.html',
+                           form_home_func_block_edit=form_home_func_block_edit, id=id)
+
 
 
 @app.route('/admin_home.html')

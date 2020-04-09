@@ -17,7 +17,8 @@
             <h3>{{ block.title }}</h3>
             <p>{{ block.content }}</p>
             {% if current_user.is_authenticated %}
-                <p>(block id: {{ block.id }}, edited by: {{ block.editor_user_id }})</p>
+                <p>(block id: {{ block.id }}, edited by: {{ block.editor_user_id }} on {{ block.edited_time }})</p>
+                <a href="{{ url_for('home_func_block_edit', id=block.id) }}">edit/delete</a>
             {% endif %}
         </div>
 
