@@ -165,8 +165,11 @@ def add_admin():
     if form.validate_on_submit():
         check_user = Admin.query.filter_by(user_id=form.user_id.data).first()
         check_email = Admin.query.filter_by(email=form.email.data).first()
-        if check_user is not None or check_email is not None:
-            flash('This user ID or Email already used.')
+        if check_user is not None:
+            flash('This user ID already used.')
+            return render_template('add_admin.html', title='Add Admin - ', form=form)
+        if check_email is not None:
+            flash('This Email already used.')
             return render_template('add_admin.html', title='Add Admin - ', form=form)
         if form.verification_key.data != 'O8afSh2OHdqyKvJyzeS4XKXQ':
             flash('The verification key is not correct.')
