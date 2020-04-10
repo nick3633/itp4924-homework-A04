@@ -1,6 +1,6 @@
 {% extends "template.html" %}
 {% block page_content %}
-    <h1>Editing block (id:{{ id }}) content Functions in home.html</h1>
+    <h1>Editing block (id:{{ id }}) content on Functions in home.html</h1>
     <form action="" method="post">
         {{ form_home_func_block_edit.hidden_tag() }}
         <p>
@@ -19,8 +19,8 @@
                 {{ error }}
             {% endfor %}
             <br>
-            {{ form_home_func_block_edit.content.editype }} {{ form_home_func_block_edit.editype }}
-            {% for error in form_home_func_block_edit.content.editype %}
+            {{ form_home_func_block_edit.editype.label }} {{ form_home_func_block_edit.editype }}
+            {% for error in form_home_func_block_edit.editype.errors %}
                 {{ error }}
             {% endfor %}
             <br>

@@ -18,8 +18,8 @@ def home():
                            home_function_block=home_function_block_load, home_about_block=home_about_block_load,)
 
 
-@app.route('/home_func_block_add', methods=['GET', 'POST'])
-def home_func_block_add():
+@app.route('/home/func_block/add', methods=['GET', 'POST'])
+def home_func_blk_add():
     if not current_user.is_authenticated:
         return redirect(url_for('admin_login'))
 
@@ -40,8 +40,8 @@ def home_func_block_add():
     return render_template('home_function_block_add.html', form_home_func_block_add=form_home_func_block_add)
 
 
-@app.route('/home_function_block_edit/<id>', methods=['GET', 'POST'])
-def home_func_block_edit(id):
+@app.route('/home/function_block_edit/<id>', methods=['GET', 'POST'])
+def home_func_blk_edit(id):
     if not current_user.is_authenticated:
         return redirect(url_for('admin_login'))
     form_home_func_block_edit = home_function_block_edit()
@@ -72,8 +72,8 @@ def home_func_block_edit(id):
                            form_home_func_block_edit=form_home_func_block_edit, id=id)
 
 
-@app.route('/home_about_bock_add', methods=['GET', 'POST'])
-def home_about_bock_add():
+@app.route('/home/about_bock_add', methods=['GET', 'POST'])
+def home_about_blk_add():
     if not current_user.is_authenticated:
         return redirect(url_for('admin_login'))
 
@@ -93,6 +93,39 @@ def home_about_bock_add():
         return redirect(url_for('home'))
 
     return render_template('home_about_block_add.html', form_home_about_block_add=form_home_about_block_add)
+
+
+@app.route('/home/about_block_edit/<id>', methods=['GET', 'POST'])
+def home_about_blk_edit(id):
+    if not current_user.is_authenticated:
+        return redirect(url_for('admin_login'))
+    form_home_about_block_edit = home_about_block_edit()
+
+    if form_home_about_block_edit.validate_on_submit():
+        if form_home_about_block_edit.editype.data == 'edit':
+            about_edit = home_about_block.query.filter_by(id=id).first()
+            about_edit.title = form_home_about_block_edit.title.data
+            about_edit.image = form_home_about_block_edit.image.data
+            about_edit.content = form_home_about_block_edit.content.data
+            about_edit.link = form_home_about_block_edit.link.data
+            about_edit.editor_user_id = current_user.user_id
+
+            db.session.commit()
+            flash('edited content id: ' + id + ' on about block in home.html')
+        elif form_home_about_block_edit.editype.data == 'delete':
+            home_about_block.query.filter_by(id=id).delete()
+            db.session.commit()
+            flash('deleted content id: ' + id + ' on about block in home.html')
+        return redirect(url_for('home'))
+    elif request.method == 'GET':
+        form_home_about_block_edit.title.data = db.session.query(home_about_block.title).filter_by(id=id).first()
+        form_home_about_block_edit.image.data = db.session.query(home_about_block.image).filter_by(id=id).first()
+        form_home_about_block_edit.content.data = db.session.query(home_about_block.content).filter_by(id=id).first()
+        form_home_about_block_edit.link.data = db.session.query(home_about_block.link).filter_by(id=id).first()
+
+    return render_template('home_about_block_edit.html', title='Editing block About in home.html',
+                           form_home_about_block_edit=form_home_about_block_edit, id=id)
+
 
 
 

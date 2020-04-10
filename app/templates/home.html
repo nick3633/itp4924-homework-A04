@@ -12,7 +12,7 @@
 
 
     {% if current_user.is_authenticated %}
-        <p>functions block<br><a href="{{ url_for('home_func_block_add') }}">add content to functions block</a> </p>
+        <p>functions block<br><a href="{{ url_for('home_func_blk_add') }}">add content to functions block</a> </p>
     {% endif %}
     {% for block in home_function_block %}
         <div style="border: 1px solid; border-color: grey;">
@@ -20,7 +20,7 @@
             <p>{{ block.content }}</p>
             {% if current_user.is_authenticated %}
                 <p>(block id: {{ block.id }}, edited by: {{ block.editor_user_id }} on {{ block.edited_time }})</p>
-                <a href="{{ url_for('home_func_block_edit', id=block.id) }}">edit/delete</a>
+                <a href="{{ url_for('home_func_blk_edit', id=block.id) }}">edit/delete</a>
             {% endif %}
         </div>
     {% endfor %}
@@ -28,7 +28,7 @@
 
 
     {% if current_user.is_authenticated %}
-        <p>about block<br><a href="{{ url_for('home_about_bock_add') }}">add content to about block</a> </p>
+        <p>about block<br><a href="{{ url_for('home_about_blk_add') }}">add content to about block</a> </p>
     {% endif %}
     {% for block in home_about_block %}
         <div style="border: 1px solid; border-color: grey;">
@@ -37,6 +37,7 @@
             <p>{{ block.content }}</p>
             {% if current_user.is_authenticated %}
                 <p>(block id: {{ block.id }}, edited by: {{ block.editor_user_id }} on {{ block.edited_time }})</p>
+                <a href="{{ url_for('home_about_blk_edit', id=block.id) }}">edit/delete</a>
             {% endif %}
         </div>
     {% endfor %}
