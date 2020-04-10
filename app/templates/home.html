@@ -12,7 +12,7 @@
 
 
     {% if current_user.is_authenticated %}
-        <p>functions block</p>
+        <p>functions block<br><a href="{{ url_for('home_func_block_add') }}">add content to functions block</a> </p>
     {% endif %}
     {% for block in home_function_block %}
         <div style="border: 1px solid; border-color: grey;">
@@ -24,39 +24,15 @@
             {% endif %}
         </div>
     {% endfor %}
-    {% if current_user.is_authenticated %}
-        <p>add content to functions block</p>
-        <form action="" method="post">
-            {{ form_home_func_block_add.hidden_tag() }}
-            <p>
-                {{ form_home_func_block_add.title.label }} {{ form_home_func_block_add.title }}
-                {% for error in form_home_func_block_add.title.errors %}
-                    {{ error }}
-                {% endfor %}
-                <br>
-                {{ form_home_func_block_add.icon.label }} {{ form_home_func_block_add.icon }}
-                {% for error in form_home_func_block_add.icon.errors %}
-                    {{ error }}
-                {% endfor %}
-                <br>
-                {{ form_home_func_block_add.content.label }} {{ form_home_func_block_add.content }}
-                {% for error in form_home_func_block_add.content.errors %}
-                    {{ error }}
-                {% endfor %}
-                <br>
-            </p>
-            <p>{{ form_home_func_block_add.submit() }}</p>
-        </form>
-    {% endif %}
     <hr>
 
 
     {% if current_user.is_authenticated %}
-        <p>about block</p>
+        <p>about block<br><a href="{{ url_for('home_about_bock_add') }}">add content to about block</a> </p>
     {% endif %}
     {% for block in home_about_block %}
         <div style="border: 1px solid; border-color: grey;">
-            <p><img src="{{ block.image }}"/></p>
+            <p><img width="360px" src="{{ block.image }}"/></p>
             <h3>{{ block.title }}</h3>
             <p>{{ block.content }}</p>
             {% if current_user.is_authenticated %}
@@ -64,33 +40,5 @@
             {% endif %}
         </div>
     {% endfor %}
-    {% if current_user.is_authenticated %}
-        <p>add content to about block</p>
-        <form action="" method="post">
-            {{ form_home_about_block_add.hidden_tag() }}
-            <p>
-                {{ form_home_about_block_add.title.label }} {{ form_home_about_block_add.title }}
-                {% for error in form_home_about_block_add.title.errors %}
-                    {{ error }}
-                {% endfor %}
-                <br>
-                {{ form_home_about_block_add.image.label }} {{ form_home_about_block_add.image }}
-                {% for error in form_home_about_block_add.image.errors %}
-                    {{ error }}
-                {% endfor %}
-                <br>
-                {{ form_home_about_block_add.content.label }} {{ form_home_about_block_add.content }}
-                {% for error in form_home_about_block_add.content.errors %}
-                    {{ error }}
-                {% endfor %}
-                <br>
-                {{ form_home_about_block_add.link.label }} {{ form_home_about_block_add.link }}
-                {% for error in form_home_about_block_add.link.errors %}
-                    {{ error }}
-                {% endfor %}
-                <br>
-            </p>
-            <p>{{ form_home_about_block_add.submit() }}</p>
-        </form>
-    {% endif %}
+    <hr>
 {% endblock %}

@@ -9,13 +9,21 @@ from app.models import Admin, home_functions_block, home_about_block
 
 
 @app.route('/', methods=['GET', 'POST'])
-@app.route('/home.html', methods=['GET', 'POST'])
+@app.route('/home', methods=['GET', 'POST'])
 def home():
     home_function_block_load = home_functions_block.query
     home_about_block_load = home_about_block.query
 
+    return render_template('home.html', title='',
+                           home_function_block=home_function_block_load, home_about_block=home_about_block_load,)
+
+
+@app.route('/home_func_block_add', methods=['GET', 'POST'])
+def home_func_block_add():
+    if not current_user.is_authenticated:
+        return redirect(url_for('admin_login'))
+
     form_home_func_block_add = home_function_block_add()
-    form_home_about_block_add = home_about_block_add()
 
     if form_home_func_block_add.validate_on_submit():
         func_add = home_functions_block(
@@ -28,23 +36,8 @@ def home():
         db.session.commit()
         flash('content added on functions block in home.html')
         return redirect(url_for('home'))
-    if form_home_about_block_add.validate_on_submit():
-        about_add = home_about_block(
-            title=form_home_about_block_add.title.data,
-            image=form_home_about_block_add.image.data,
-            content=form_home_about_block_add.content.data,
-            link=form_home_about_block_add.link.data,
-            editor_user_id=current_user.user_id
-        )
-        db.session.add(about_add)
-        db.session.commit()
-        flash('content added on about block in home.html')
-        return redirect(url_for('home'))
 
-    return render_template('home.html', title='',
-                           home_function_block=home_function_block_load, home_about_block=home_about_block_load,
-                           form_home_func_block_add=form_home_func_block_add,
-                           form_home_about_block_add=form_home_about_block_add)
+    return render_template('home_function_block_add.html', form_home_func_block_add=form_home_func_block_add)
 
 
 @app.route('/home_function_block_edit/<id>', methods=['GET', 'POST'])
@@ -79,8 +72,31 @@ def home_func_block_edit(id):
                            form_home_func_block_edit=form_home_func_block_edit, id=id)
 
 
+@app.route('/home_about_bock_add', methods=['GET', 'POST'])
+def home_about_bock_add():
+    if not current_user.is_authenticated:
+        return redirect(url_for('admin_login'))
 
-@app.route('/admin_home.html')
+    form_home_about_block_add = home_about_block_add()
+
+    if form_home_about_block_add.validate_on_submit():
+        about_add = home_about_block(
+            title=form_home_about_block_add.title.data,
+            image=form_home_about_block_add.image.data,
+            content=form_home_about_block_add.content.data,
+            link=form_home_about_block_add.link.data,
+            editor_user_id=current_user.user_id
+        )
+        db.session.add(about_add)
+        db.session.commit()
+        flash('content added on about block in home.html')
+        return redirect(url_for('home'))
+
+    return render_template('home_about_block_add.html', form_home_about_block_add=form_home_about_block_add)
+
+
+
+@app.route('/admin_home')
 def admin_home():
     if not current_user.is_authenticated:
         return redirect(url_for('admin_login'))
@@ -88,7 +104,7 @@ def admin_home():
     return render_template('admin_home.html', title='Admin Home - ', admin_list=admin_list)
 
 
-@app.route('/admin_login.html', methods=['GET', 'POST'])
+@app.route('/admin_login', methods=['GET', 'POST'])
 def admin_login():
     if current_user.is_authenticated:
         return redirect(url_for('admin_home'))
@@ -104,13 +120,13 @@ def admin_login():
     return render_template('admin_login.html', title='Admin Login - ', form=form)
 
 
-@app.route('/admin_logout.html')
+@app.route('/admin_logout')
 def admin_logout():
     logout_user()
     return redirect(url_for('admin_login'))
 
 
-@app.route('/add_admin.html', methods=['GET', 'POST'])
+@app.route('/add_admin', methods=['GET', 'POST'])
 def add_admin():
     form = AddAdminForm()
     if form.validate_on_submit():

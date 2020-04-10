@@ -15,7 +15,7 @@ class home_about_block_add(FlaskForm):
     title = StringField('Title', validators=[DataRequired()])
     image = StringField('Image URL')
     content = TextAreaField('Content', validators=[DataRequired()])
-    link = TextAreaField('Link', validators=[DataRequired()])
+    link = TextAreaField('Link')
     submit = SubmitField('Add')
 
 
@@ -32,7 +32,7 @@ class home_about_block_edit(FlaskForm):
     title = StringField('Title', validators=[DataRequired()])
     image = StringField('Image URL')
     content = TextAreaField('Content', validators=[DataRequired()])
-    link = TextAreaField('Link', validators=[DataRequired()])
+    link = TextAreaField('Link')
     editype = SelectField('Action ', choices=[('edit', 'Edit'), ('delete', 'Delete')], validators=[DataRequired()])
     submit = SubmitField('Apply')
 

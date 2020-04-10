@@ -1,0 +1,30 @@
+{% extends "template.html" %}
+{% block page_content %}
+    <p>add content to about block</p>
+    <form action="" method="post">
+        {{ form_home_about_block_add.hidden_tag() }}
+        <p>
+            {{ form_home_about_block_add.title.label }} {{ form_home_about_block_add.title }}
+            {% for error in form_home_about_block_add.title.errors %}
+                {{ error }}
+            {% endfor %}
+            <br>
+            {{ form_home_about_block_add.image.label }} {{ form_home_about_block_add.image }}
+            {% for error in form_home_about_block_add.image.errors %}
+                {{ error }}
+            {% endfor %}
+            <br>
+            {{ form_home_about_block_add.content.label }} {{ form_home_about_block_add.content }}
+            {% for error in form_home_about_block_add.content.errors %}
+                {{ error }}
+            {% endfor %}
+            <br>
+            {{ form_home_about_block_add.link.label }} {{ form_home_about_block_add.link }}
+            {% for error in form_home_about_block_add.link.errors %}
+                {{ error }}
+            {% endfor %}
+            <br>
+        </p>
+        <p>{{ form_home_about_block_add.submit() }}</p>
+    </form>
+{% endblock %}
