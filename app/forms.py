@@ -11,12 +11,29 @@ class home_function_block_add(FlaskForm):
     submit = SubmitField('Add')
 
 
+class home_about_block_add(FlaskForm):
+    title = StringField('Title', validators=[DataRequired()])
+    image = StringField('Image URL')
+    content = TextAreaField('Content', validators=[DataRequired()])
+    link = TextAreaField('Link', validators=[DataRequired()])
+    submit = SubmitField('Add')
+
+
 class home_function_block_edit(FlaskForm):
     title = StringField('Title', validators=[DataRequired()])
     icon = StringField('Icon URL')
     content = TextAreaField('Content', validators=[DataRequired()])
     editype = SelectField('Action ', choices=[('edit', 'Edit'), ('delete', 'Delete')], validators=[DataRequired()])
     # https://wtforms.readthedocs.io/en/stable/fields.html (4/9/2020 4:19PM)
+    submit = SubmitField('Apply')
+
+
+class home_about_block_edit(FlaskForm):
+    title = StringField('Title', validators=[DataRequired()])
+    image = StringField('Image URL')
+    content = TextAreaField('Content', validators=[DataRequired()])
+    link = TextAreaField('Link', validators=[DataRequired()])
+    editype = SelectField('Action ', choices=[('edit', 'Edit'), ('delete', 'Delete')], validators=[DataRequired()])
     submit = SubmitField('Apply')
 
 

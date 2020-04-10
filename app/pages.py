@@ -3,15 +3,20 @@ from flask_login import login_user, logout_user, current_user, login_required
 from werkzeug.urls import url_parse
 from werkzeug.security import generate_password_hash, check_password_hash
 from app import app, db
-from app.forms import *
-from app.models import Admin, home_functions_block
+from app.forms import home_function_block_add, home_about_block_add, home_function_block_edit, home_about_block_edit, \
+    AdminLoginForm, AddAdminForm
+from app.models import Admin, home_functions_block, home_about_block
 
 
 @app.route('/', methods=['GET', 'POST'])
 @app.route('/home.html', methods=['GET', 'POST'])
 def home():
-    home_function_block = home_functions_block.query
+    home_function_block_load = home_functions_block.query
+    home_about_block_load = home_about_block.query
+
     form_home_func_block_add = home_function_block_add()
+    form_home_about_block_add = home_about_block_add()
+
     if form_home_func_block_add.validate_on_submit():
         func_add = home_functions_block(
             title=form_home_func_block_add.title.data,
@@ -23,8 +28,23 @@ def home():
         db.session.commit()
         flash('content added on functions block in home.html')
         return redirect(url_for('home'))
-    return render_template('home.html', title='', home_function_block=home_function_block,
-                           form_home_func_block_add=form_home_func_block_add)
+    if form_home_about_block_add.validate_on_submit():
+        about_add = home_about_block(
+            title=form_home_about_block_add.title.data,
+            image=form_home_about_block_add.image.data,
+            content=form_home_about_block_add.content.data,
+            link=form_home_about_block_add.link.data,
+            editor_user_id=current_user.user_id
+        )
+        db.session.add(about_add)
+        db.session.commit()
+        flash('content added on about block in home.html')
+        return redirect(url_for('home'))
+
+    return render_template('home.html', title='',
+                           home_function_block=home_function_block_load, home_about_block=home_about_block_load,
+                           form_home_func_block_add=form_home_func_block_add,
+                           form_home_about_block_add=form_home_about_block_add)
 
 
 @app.route('/home_function_block_edit/<id>', methods=['GET', 'POST'])

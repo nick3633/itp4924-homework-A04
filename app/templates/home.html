@@ -9,6 +9,8 @@
     </p>
     <p align="center">Supported on Windows, Linux, and macOS</p>
     <hr>
+
+
     {% if current_user.is_authenticated %}
         <p>functions block</p>
     {% endif %}
@@ -21,7 +23,6 @@
                 <a href="{{ url_for('home_func_block_edit', id=block.id) }}">edit/delete</a>
             {% endif %}
         </div>
-
     {% endfor %}
     {% if current_user.is_authenticated %}
         <p>add content to functions block</p>
@@ -45,6 +46,51 @@
                 <br>
             </p>
             <p>{{ form_home_func_block_add.submit() }}</p>
+        </form>
+    {% endif %}
+    <hr>
+
+
+    {% if current_user.is_authenticated %}
+        <p>about block</p>
+    {% endif %}
+    {% for block in home_about_block %}
+        <div style="border: 1px solid; border-color: grey;">
+            <p><img src="{{ block.image }}"/></p>
+            <h3>{{ block.title }}</h3>
+            <p>{{ block.content }}</p>
+            {% if current_user.is_authenticated %}
+                <p>(block id: {{ block.id }}, edited by: {{ block.editor_user_id }} on {{ block.edited_time }})</p>
+            {% endif %}
+        </div>
+    {% endfor %}
+    {% if current_user.is_authenticated %}
+        <p>add content to about block</p>
+        <form action="" method="post">
+            {{ form_home_about_block_add.hidden_tag() }}
+            <p>
+                {{ form_home_about_block_add.title.label }} {{ form_home_about_block_add.title }}
+                {% for error in form_home_about_block_add.title.errors %}
+                    {{ error }}
+                {% endfor %}
+                <br>
+                {{ form_home_about_block_add.image.label }} {{ form_home_about_block_add.image }}
+                {% for error in form_home_about_block_add.image.errors %}
+                    {{ error }}
+                {% endfor %}
+                <br>
+                {{ form_home_about_block_add.content.label }} {{ form_home_about_block_add.content }}
+                {% for error in form_home_about_block_add.content.errors %}
+                    {{ error }}
+                {% endfor %}
+                <br>
+                {{ form_home_about_block_add.link.label }} {{ form_home_about_block_add.link }}
+                {% for error in form_home_about_block_add.link.errors %}
+                    {{ error }}
+                {% endfor %}
+                <br>
+            </p>
+            <p>{{ form_home_about_block_add.submit() }}</p>
         </form>
     {% endif %}
 {% endblock %}
