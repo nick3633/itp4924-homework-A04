@@ -2,17 +2,21 @@
 
 {% block app_content %}
     <h1>Admin Home</h1>
-    <ul>
-        <li><a href="{{ url_for('add_admin') }}">Add Admin</a></li>
-    </ul>
+    <p><a class="btn btn-primary btn-md" href="{{ url_for('add_admin') }}">Add Admin</a></p>
     <hr>
     <h2>List of admins</h2>
-    <table>
-    {% for admin in admin_list %}
+    <table class="table table-striped">
+        <tr>
+            <th>Admin ID</th>
+            <th>Admin Email</th>
+            <th>Action</th>
+        </tr>
+        {% for admin in admin_list %}
             <tr>
                 <td>{{ admin.user_id }}</td>
                 <td>{{ admin.email }}</td>
+                <td><a href="#">Edit/Delete</a></td>
             </tr>
-    {% endfor %}
+        {% endfor %}
     </table>
 {% endblock %}
