@@ -1,44 +1,75 @@
 {% extends "template.html" %}
-{% block page_content %}
-    <h1 align="center">ASP.NET</h1>
-    <h3 align="center">Free. Cross-platform. Open source. A framework for building web apps and services with .NET and
-        C#.</h3>
-    <p align="center">
-        <button>Get Started</button>
-        <button>Download</button>
-    </p>
-    <p align="center">Supported on Windows, Linux, and macOS</p>
-    <hr>
+{% block app_content %}
+    <div class="jumbotron">
+        <h1 align="center">ASP.NET</h1>
+        <h2 align="center">Free. Cross-platform. Open source. A framework for building web apps and services with .NET
+            and
+            C#.</h2>
+        <p align="center">
+            <a class="btn btn-primary btn-lg" href="#" role="button">Get Started</a>
+            <a class="btn btn-primary btn-lg" href="#" role="button">Download</a>
+        </p>
+        <p align="center">Supported on Windows, Linux, and macOS</p>
+    </div>
 
 
     {% if current_user.is_authenticated %}
-        <p>functions block<br><a href="{{ url_for('home_func_blk_add') }}">add content to functions block</a> </p>
+        <p>functions block<br><a href="{{ url_for('home_func_blk_add') }}">add content to functions block</a></p>
     {% endif %}
-    {% for block in home_function_block %}
-        <div style="border: 1px solid; border-color: grey;">
-            <h3>{{ block.title }}</h3>
-            <p>{{ block.content }}</p>
-            {% if current_user.is_authenticated %}
-                <p>(block id: {{ block.id }}, edited by: {{ block.editor_user_id }} on {{ block.edited_time }})</p>
-                <a href="{{ url_for('home_func_blk_edit', id=block.id) }}">edit/delete</a>
-            {% endif %}
-        </div>
-    {% endfor %}
+    <div class="row">
+        {% for block in home_function_block %}
+            <div class="col-xs-6 col-md-3">
+                <div class="thumbnail">
+                    <div class="caption">
+                        <div class="media">
+                            <div class="media-left">
+                                <a href="#">
+                                    <img class="media-object" src="{{ block.icon }} width=">
+                                </a>
+                            </div>
+                            <div class="media-body">
+                                <h4 class="media-heading">{{ block.title }}</h4>
+                                {{ block.content }}
+                                {% if current_user.is_authenticated %}
+                                    <hr>
+                                    <p>block id: {{ block.id }} <br> edited by: {{ block.editor_user_id }}
+                                        <br> on {{ block.edited_time }}</p>
+                                    <a href="{{ url_for('home_func_blk_edit', id=block.id) }}">edit/delete</a>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
     <hr>
 
 
     {% if current_user.is_authenticated %}
-        <p>about block<br><a href="{{ url_for('home_about_blk_add') }}">add content to about block</a> </p>
+        <p>about block<br><a href="{{ url_for('home_about_blk_add') }}">add content to about block</a></p>
     {% endif %}
     {% for block in home_about_block %}
-        <div style="border: 1px solid; border-color: grey;">
-            <p><img width="360px" src="{{ block.image }}"/></p>
-            <h3>{{ block.title }}</h3>
-            <p>{{ block.content }}</p>
-            {% if current_user.is_authenticated %}
-                <p>(block id: {{ block.id }}, edited by: {{ block.editor_user_id }} on {{ block.edited_time }})</p>
-                <a href="{{ url_for('home_about_blk_edit', id=block.id) }}">edit/delete</a>
-            {% endif %}
+
+        <div class="thumbnail">
+            <div class="row">
+                <div class="col-md-6">
+                    <img src="{{ block.image }}">
+                </div>
+                <div class="col-md-6">
+                    <div class="caption">
+                        <h3>{{ block.title }}</h3>
+                        <p>{{ block.content }}</p>
+                        <p><a href="{{ block.link }}" class="btn btn-primary" role="button">{{ block.link }}</a></p>
+                        {% if current_user.is_authenticated %}
+                            <hr>
+                            <p>block id: {{ block.id }} <br> edited by: {{ block.editor_user_id }} <br>
+                                on {{ block.edited_time }}</p>
+                            <a href="{{ url_for('home_about_blk_edit', id=block.id) }}">edit/delete</a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
         </div>
     {% endfor %}
     <hr>

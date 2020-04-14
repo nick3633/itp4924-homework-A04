@@ -1,22 +1,52 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>{{ title }}ASP.NET</title>
-</head>
-<body>
-{% with messages = get_flashed_messages() %}
-    {% if messages %}
-        {% for message in messages %}
-            <p>{{ message }}</p>
-        {% endfor %}
-        <hr>
-    {% endif %}
-{% endwith %}
-{% if current_user.is_authenticated %}
-    <p>you have login as the site admin ( ID: {{ current_user.user_id }} )</p>
-    <p><a href="{{ url_for('admin_home') }}">admin home</a> | <a href="{{ url_for('admin_logout') }}">logout</a></p>
-    <hr>
-{% endif %}
-{% block page_content %}{% endblock %}
-</body>
-</html>
+{% extends "bootstrap/base.html" %}
+{% block title %}{{ title }}ASP.NET{% endblock %}
+
+{% block navbar %}
+    <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                        data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">Microsoft</a>
+            </div>
+
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav">
+                    <li><a href="{{ url_for('home') }}">ASP.NET</a></li>
+                    <li><a href="#">About</a></li>
+                    <li><a href="#">Architecture</a></li>
+                    <li><a href="#">Docs</a></li>
+                    <li><a href="#">Downloads</a></li>
+                    <li><a href="#">Community</a></li>
+                    <li><a href="#">Get Started</a></li>
+                </ul>
+                {% if current_user.is_authenticated %}
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a href="{{ url_for('admin_home') }}">Admin ID: {{ current_user.user_id }}</a></li>
+                        <li><a href="{{ url_for('admin_logout') }}">Admin Logout</a></li>
+                    </ul>
+                {% endif %}
+            </div>
+        </div>
+    </nav>
+{% endblock %}
+
+{% block content %}
+    <div class="container" style="padding-top: 70px;">
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="alert alert-info" role="alert">{{ message }}</div>
+                {% endfor %}
+                <hr>
+            {% endif %}
+        {% endwith %}
+        {% block app_content %}{% endblock %}
+    </div>
+{% endblock %}
+<!-- https://getbootstrap.com/docs/3.4/components/ -->

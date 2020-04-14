@@ -40,7 +40,7 @@ def home_func_blk_add():
     return render_template('home_function_block_add.html', form_home_func_block_add=form_home_func_block_add)
 
 
-@app.route('/home/function_block_edit/<id>', methods=['GET', 'POST'])
+@app.route('/home/function_block/edit/<id>', methods=['GET', 'POST'])
 def home_func_blk_edit(id):
     if not current_user.is_authenticated:
         return redirect(url_for('admin_login'))
@@ -72,7 +72,7 @@ def home_func_blk_edit(id):
                            form_home_func_block_edit=form_home_func_block_edit, id=id)
 
 
-@app.route('/home/about_bock_add', methods=['GET', 'POST'])
+@app.route('/home/about_bock/add', methods=['GET', 'POST'])
 def home_about_blk_add():
     if not current_user.is_authenticated:
         return redirect(url_for('admin_login'))
@@ -95,7 +95,7 @@ def home_about_blk_add():
     return render_template('home_about_block_add.html', form_home_about_block_add=form_home_about_block_add)
 
 
-@app.route('/home/about_block_edit/<id>', methods=['GET', 'POST'])
+@app.route('/home/about_block/edit/<id>', methods=['GET', 'POST'])
 def home_about_blk_edit(id):
     if not current_user.is_authenticated:
         return redirect(url_for('admin_login'))
