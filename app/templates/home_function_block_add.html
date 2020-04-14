@@ -1,25 +1,8 @@
 {% extends "template.html" %}
+{% import 'bootstrap/wtf.html' as wtf %}
+
 {% block app_content %}
     <h1>add content to functions block in home.html</h1>
-    <form action="" method="post">
-        {{ form_home_func_block_add.hidden_tag() }}
-        <p>
-            {{ form_home_func_block_add.title.label }} {{ form_home_func_block_add.title }}
-            {% for error in form_home_func_block_add.title.errors %}
-                {{ error }}
-            {% endfor %}
-            <br>
-            {{ form_home_func_block_add.icon.label }} {{ form_home_func_block_add.icon }}
-            {% for error in form_home_func_block_add.icon.errors %}
-                {{ error }}
-            {% endfor %}
-            <br>
-            {{ form_home_func_block_add.content.label }} {{ form_home_func_block_add.content }}
-            {% for error in form_home_func_block_add.content.errors %}
-                {{ error }}
-            {% endfor %}
-            <br>
-        </p>
-        <p>{{ form_home_func_block_add.submit() }}</p>
-    </form>
+    <div class="col-md-6">{{ wtf.quick_form(form_home_func_block_add) }}</div>
+
 {% endblock %}

@@ -64,9 +64,9 @@ def home_func_blk_edit(id):
         return redirect(url_for('home'))
     elif request.method == 'GET':
 
-        form_home_func_block_edit.title.data = db.session.query(home_functions_block.title).filter_by(id=id).first()
-        form_home_func_block_edit.icon.data = db.session.query(home_functions_block.icon).filter_by(id=id).first()
-        form_home_func_block_edit.content.data = db.session.query(home_functions_block.content).filter_by(id=id).first()
+        form_home_func_block_edit.title.data = str(db.session.query(home_functions_block.title).filter_by(id=id).first())
+        form_home_func_block_edit.icon.data = str(db.session.query(home_functions_block.icon).filter_by(id=id).first())
+        form_home_func_block_edit.content.data = str(db.session.query(home_functions_block.content).filter_by(id=id).first())
 
     return render_template('home_function_block_edit.html', title='Editing block Functions in home.html',
                            form_home_func_block_edit=form_home_func_block_edit, id=id)
@@ -85,6 +85,7 @@ def home_about_blk_add():
             image=form_home_about_block_add.image.data,
             content=form_home_about_block_add.content.data,
             link=form_home_about_block_add.link.data,
+            link_text=form_home_about_block_add.link_text.data,
             editor_user_id=current_user.user_id
         )
         db.session.add(about_add)
@@ -108,6 +109,7 @@ def home_about_blk_edit(id):
             about_edit.image = form_home_about_block_edit.image.data
             about_edit.content = form_home_about_block_edit.content.data
             about_edit.link = form_home_about_block_edit.link.data
+            about_edit.link_text = form_home_about_block_edit.link_text.data
             about_edit.editor_user_id = current_user.user_id
 
             db.session.commit()
@@ -118,10 +120,11 @@ def home_about_blk_edit(id):
             flash('deleted content id: ' + id + ' on about block in home.html')
         return redirect(url_for('home'))
     elif request.method == 'GET':
-        form_home_about_block_edit.title.data = db.session.query(home_about_block.title).filter_by(id=id).first()
-        form_home_about_block_edit.image.data = db.session.query(home_about_block.image).filter_by(id=id).first()
-        form_home_about_block_edit.content.data = db.session.query(home_about_block.content).filter_by(id=id).first()
-        form_home_about_block_edit.link.data = db.session.query(home_about_block.link).filter_by(id=id).first()
+        form_home_about_block_edit.title.data = str(db.session.query(home_about_block.title).filter_by(id=id).first())
+        form_home_about_block_edit.image.data = str(db.session.query(home_about_block.image).filter_by(id=id).first())
+        form_home_about_block_edit.content.data = str(db.session.query(home_about_block.content).filter_by(id=id).first())
+        form_home_about_block_edit.link.data = str(db.session.query(home_about_block.link).filter_by(id=id).first())
+        form_home_about_block_edit.link_text.data = str(db.session.query(home_about_block.link_text).filter_by(id=id).first())
 
     return render_template('home_about_block_edit.html', title='Editing block About in home.html',
                            form_home_about_block_edit=form_home_about_block_edit, id=id)

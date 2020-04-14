@@ -46,6 +46,7 @@ class home_about_block(db.Model):
     image = db.Column(db.String(256))
     content = db.Column(db.String(1024))
     link = db.Column(db.String(256))
+    link_text = db.Column(db.String(64))
     editor_user_id = db.Column(db.String(64), db.ForeignKey('admin.user_id'))
     edited_time = db.Column(db.DateTime, default=datetime.utcnow)
 
