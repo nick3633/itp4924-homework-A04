@@ -3,9 +3,9 @@ from flask_login import login_user, logout_user, current_user, login_required
 from werkzeug.urls import url_parse
 from werkzeug.security import generate_password_hash, check_password_hash
 from app import app, db
-from app.forms import home_function_block_add, home_about_block_add, home_function_block_edit, home_about_block_edit, \
-    AdminLoginForm, AddAdminForm
-from app.models import Admin, home_functions_block, home_about_block
+from app.forms import home_function_block_add, home_about_block_add, home_client_block_add, home_function_block_edit, \
+    home_about_block_edit, home_client_block_edit, AdminLoginForm, AddAdminForm
+from app.models import Admin, home_functions_block, home_about_block, home_client_block
 
 
 @app.route('/', methods=['GET', 'POST'])
@@ -13,9 +13,11 @@ from app.models import Admin, home_functions_block, home_about_block
 def home():
     home_function_block_load = home_functions_block.query
     home_about_block_load = home_about_block.query
+    home_client_block_load = home_client_block.query
 
     return render_template('home.html', title='',
-                           home_function_block=home_function_block_load, home_about_block=home_about_block_load,)
+                           home_function_block=home_function_block_load, home_about_block=home_about_block_load,
+                           home_client_block=home_client_block_load)
 
 
 @app.route('/home/func_block/add', methods=['GET', 'POST'])
@@ -72,7 +74,7 @@ def home_func_blk_edit(id):
                            form_home_func_block_edit=form_home_func_block_edit, id=id)
 
 
-@app.route('/home/about_bock/add', methods=['GET', 'POST'])
+@app.route('/home/about_block/add', methods=['GET', 'POST'])
 def home_about_blk_add():
     if not current_user.is_authenticated:
         return redirect(url_for('admin_login'))
@@ -129,6 +131,57 @@ def home_about_blk_edit(id):
     return render_template('home_about_block_edit.html', title='Editing block About in home.html',
                            form_home_about_block_edit=form_home_about_block_edit, id=id)
 
+
+@app.route('/home/client_block/add', methods=['GET', 'POST'])
+def home_client_blk_add():
+    if not current_user.is_authenticated:
+        return redirect(url_for('admin_login'))
+
+    form_home_client_block_add = home_client_block_add()
+    if form_home_client_block_add.validate_on_submit():
+        client_add = home_client_block(
+            client_logo=form_home_client_block_add.client_logo.data,
+            editor_user_id=current_user.user_id
+        )
+        db.session.add(client_add)
+        db.session.commit()
+        flash('content added on client block in home.html')
+        return redirect(url_for('home'))
+
+    return render_template('home_client_block_add.html', form_home_client_block_add=form_home_client_block_add)
+
+
+@app.route('/home/client_block/edit/<id>', methods=['GET', 'POST'])
+def home_client_blk_edit(id):
+    if not current_user.is_authenticated:
+        return redirect(url_for('admin_login'))
+    form_home_client_block_edit = home_client_block_edit()
+
+    if form_home_client_block_edit.validate_on_submit():
+        if form_home_client_block_edit.editype.data == 'edit':
+            client_edit = home_client_block.query.filter_by(id=id).first()
+            client_edit.client_logo = form_home_client_block_edit.client_logo.data
+            client_edit.editor_user_id = current_user.user_id
+
+            db.session.commit()
+            flash('edited content id: ' + id + ' on client block in home.html')
+        elif form_home_client_block_edit.editype.data == 'delete':
+            home_client_block.query.filter_by(id=id).delete()
+            db.session.commit()
+            flash('deleted content id: ' + id + ' on client block in home.html')
+        return redirect(url_for('home'))
+    elif request.method == 'GET':
+        form_home_client_block_edit.client_logo.data = str(db.session.query(home_client_block.client_logo).filter_by(id=id).first())
+
+    return render_template('home_client_block_edit.html', title='Editing block Client in home.html',
+                           form_home_client_block_edit=form_home_client_block_edit, id=id)
+
+
+@app.route('/about', methods=['GET', 'POST'])
+def about():
+
+
+    return render_template('about.html', title='About',)
 
 
 

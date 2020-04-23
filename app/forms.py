@@ -20,6 +20,11 @@ class home_about_block_add(FlaskForm):
     submit = SubmitField('Add')
 
 
+class home_client_block_add(FlaskForm):
+    client_logo = StringField('Icon URL')
+    submit = SubmitField('Add')
+
+
 class home_function_block_edit(FlaskForm):
     title = StringField('Title', validators=[DataRequired()])
     icon = StringField('Icon URL')
@@ -35,6 +40,12 @@ class home_about_block_edit(FlaskForm):
     content = TextAreaField('Content', validators=[DataRequired()])
     link = StringField('Link')
     link_text = StringField('Link Text')
+    editype = SelectField('Action ', choices=[('edit', 'Edit'), ('delete', 'Delete')], validators=[DataRequired()])
+    submit = SubmitField('Apply')
+
+
+class home_client_block_edit(FlaskForm):
+    client_logo = StringField('Icon URL')
     editype = SelectField('Action ', choices=[('edit', 'Edit'), ('delete', 'Delete')], validators=[DataRequired()])
     submit = SubmitField('Apply')
 
