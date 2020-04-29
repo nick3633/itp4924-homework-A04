@@ -6,4 +6,53 @@
             types of applications.</h2>
     </div>
 
+
+    {% if current_user.is_authenticated %}
+        <p>net block<br><a href="{{ url_for('about_net_blk_add') }}">add content to net block</a></p>
+    {% endif %}
+    <div class="row">
+        {% for block in about_net_block %}
+            <div class="thumbnail">
+                <div class="row">
+                    <div class="col-sm-6 col-md-6">
+                        {{ block.media|safe }}
+                    </div>
+                    <div class="col-sm-6 col-md-6">
+                        <div class="caption">
+                            <h3>{{ block.title }}</h3>
+                            {{ block.content|safe }}
+                            {% if block.link != '' %}
+                                <p><a href="{{ block.link }}" class="btn btn-primary"
+                                      role="button">{{ block.link_text }}</a></p>
+                            {% endif %}
+                            {% if current_user.is_authenticated %}
+                                <hr>
+                                <p>block id: {{ block.id }} <br> edited by: {{ block.editor_user_id }}
+                                    <br> on {{ block.edited_time }}</p>
+                                <a href="{{ url_for('about_net_blk_edit', id=block.id) }}">edit/delete</a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+        <div class="jumbotron" style="background-color: purple; color: white;">
+            <div class="row">
+                <div class="col-sm-6 col-md-6">
+                    <div class="caption">
+                        <h2>Ready to Get Started?</h2>
+                        <p>Our step-by-step tutorial will help you get .NET running on your computer.</p>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-md-6">
+                    <div class="caption">
+                        <p align="center">Supported on Windows, Linux, and macOS</p>
+                        <p align="center"><a href="https://dotnet.microsoft.com/learn/dotnet/hello-world-tutorial/intro"
+                                             class="btn btn-primary" role="button">Get Started</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <hr>
+    </div>
 {% endblock %}

@@ -4,9 +4,8 @@ from werkzeug.urls import url_parse
 from werkzeug.security import generate_password_hash, check_password_hash
 from datetime import datetime
 from app import app, db
-from app.forms import home_function_block_add, home_about_block_add, home_client_block_add, home_function_block_edit, \
-    home_about_block_edit, home_client_block_edit, AdminLoginForm, AddAdminForm
-from app.models import Admin, home_functions_block, home_about_block, home_client_block
+from app.forms import *
+from app.models import *
 
 
 @app.route('/', methods=['GET', 'POST'])
@@ -19,7 +18,6 @@ def home():
     return render_template('home.html', title='',
                            home_function_block=home_function_block_load, home_about_block=home_about_block_load,
                            home_client_block=home_client_block_load)
-
 
 @app.route('/home/func_block/add', methods=['GET', 'POST'])
 def home_func_blk_add():
@@ -41,7 +39,6 @@ def home_func_blk_add():
         return redirect(url_for('home'))
 
     return render_template('home_function_block_add.html', form_home_func_block_add=form_home_func_block_add)
-
 
 @app.route('/home/function_block/edit/<id>', methods=['GET', 'POST'])
 def home_func_blk_edit(id):
@@ -75,7 +72,6 @@ def home_func_blk_edit(id):
     return render_template('home_function_block_edit.html', title='Editing block Functions in home.html',
                            form_home_func_block_edit=form_home_func_block_edit, id=id)
 
-
 @app.route('/home/about_block/add', methods=['GET', 'POST'])
 def home_about_blk_add():
     if not current_user.is_authenticated:
@@ -98,7 +94,6 @@ def home_about_blk_add():
         return redirect(url_for('home'))
 
     return render_template('home_about_block_add.html', form_home_about_block_add=form_home_about_block_add)
-
 
 @app.route('/home/about_block/edit/<id>', methods=['GET', 'POST'])
 def home_about_blk_edit(id):
@@ -135,7 +130,6 @@ def home_about_blk_edit(id):
     return render_template('home_about_block_edit.html', title='Editing block About in home.html',
                            form_home_about_block_edit=form_home_about_block_edit, id=id)
 
-
 @app.route('/home/client_block/add', methods=['GET', 'POST'])
 def home_client_blk_add():
     if not current_user.is_authenticated:
@@ -153,7 +147,6 @@ def home_client_blk_add():
         return redirect(url_for('home'))
 
     return render_template('home_client_block_add.html', form_home_client_block_add=form_home_client_block_add)
-
 
 @app.route('/home/client_block/edit/<id>', methods=['GET', 'POST'])
 def home_client_blk_edit(id):
@@ -185,10 +178,63 @@ def home_client_blk_edit(id):
 
 @app.route('/about', methods=['GET', 'POST'])
 def about():
+    about_net_block_load = about_net_block.query
+    return render_template('about.html', title='About', about_net_block=about_net_block_load)
 
+@app.route('/about/net_block/add', methods=['GET', 'POST'])
+def about_net_blk_add():
+    if not current_user.is_authenticated:
+        return redirect(url_for('admin_login'))
+    
+    form_about_net_block_add = about_net_block_add()
+    if form_about_net_block_add.validate_on_submit():
+        net_add = about_net_block(
+            title = form_about_net_block_add.title.data,
+            media = form_about_net_block_add.media.data,
+            content = form_about_net_block_add.content.data,
+            link = form_about_net_block_add.link.data,
+            link_text = form_about_net_block_add.link_text.data,
+            editor_user_id = current_user.user_id
+        )
+        db.session.add(net_add)
+        db.session.commit()
+        flash('content added on net block in about.html')
+        return redirect(url_for('about'))
+    return render_template('about_net_block_add.html', form_about_net_block_add=form_about_net_block_add)
 
-    return render_template('about.html', title='About',)
+@app.route('/about/net_block/edit/<id>', methods=['GET', 'POST'])
+def about_net_blk_edit(id):
+    if not current_user.is_authenticated:
+        return redirect(url_for('admin_login'))
+    form_about_net_block_edit = about_net_block_edit()
 
+    if form_about_net_block_edit.validate_on_submit():
+        if form_about_net_block_edit.editype.data == 'edit':
+            net_edit = about_net_block.query.filter_by(id=id).first()
+            net_edit.title = form_about_net_block_edit.title.data
+            net_edit.media = form_about_net_block_edit.media.data
+            net_edit.content = form_about_net_block_edit.content.data
+            net_edit.link = form_about_net_block_edit.link.data
+            net_edit.link_text = form_about_net_block_edit.link_text.data
+            net_edit.edited_time = datetime.utcnow()
+
+            db.session.commit()
+            flash('edited content id: ' + id + ' on net block in about.html')
+        elif form_about_net_block_edit.editype.data == 'delete':
+            about_net_block.query.filter_by(id=id).delete()
+            db.session.commit()
+            flash('deleted content id: ' + id + ' on net block in about.html')
+        return redirect(url_for('about'))
+    elif request.method == 'GET':
+        get_value = about_net_block.query.filter_by(id=id).first()
+        form_about_net_block_edit.title.data = get_value.title
+        form_about_net_block_edit.media.data = get_value.media
+        form_about_net_block_edit.content.data = get_value.content
+        form_about_net_block_edit.link.data = get_value.link
+        form_about_net_block_edit.link_text.data = get_value.link_text
+
+    return render_template('about_net_block_edit.html', title='Editing block net in about.html',
+                           form_about_net_block_edit=form_about_net_block_edit, id=id)
 
 
 @app.route('/admin_home')
@@ -197,7 +243,6 @@ def admin_home():
         return redirect(url_for('admin_login'))
     admin_list = Admin.query
     return render_template('admin_home.html', title='Admin Home - ', admin_list=admin_list)
-
 
 @app.route('/admin_login', methods=['GET', 'POST'])
 def admin_login():
@@ -214,12 +259,10 @@ def admin_login():
         return redirect(url_for('admin_home'))
     return render_template('admin_login.html', title='Admin Login - ', form=form)
 
-
 @app.route('/admin_logout')
 def admin_logout():
     logout_user()
     return redirect(url_for('admin_login'))
-
 
 @app.route('/add_admin', methods=['GET', 'POST'])
 def add_admin():
