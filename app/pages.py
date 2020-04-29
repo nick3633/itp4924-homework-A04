@@ -203,7 +203,7 @@ def admin_login():
         if user is None or not user.check_password(form.password.data):
             flash('User ID or password is not correct')
             return render_template('admin_login.html', title='Admin Login - ', form=form)
-        login_user(user, remember=False)
+        login_user(user, remember=form.keep_login_status.data)
         # https://stackoverflow.com/questions/37472870/login-user-fails-to-get-user-id (4/7/2020 1:15AM)
         return redirect(url_for('admin_home'))
     return render_template('admin_login.html', title='Admin Login - ', form=form)

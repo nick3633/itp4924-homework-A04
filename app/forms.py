@@ -53,6 +53,7 @@ class home_client_block_edit(FlaskForm):
 class AdminLoginForm(FlaskForm):
     user_id = StringField('User ID', validators=[DataRequired()])
     password = PasswordField('Password', validators=[DataRequired()])
+    keep_login_status = BooleanField('Keep Login Status')
     submit = SubmitField('Login')
 
 
