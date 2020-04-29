@@ -9,14 +9,13 @@
         <tr>
             <th>Admin ID</th>
             <th>Admin Email</th>
-            <th>Action</th>
         </tr>
         {% for admin in admin_list %}
             <tr>
                 <td>{{ admin.user_id }}</td>
                 <td>{{ admin.email }}</td>
-                <td><a href="#">Edit/Delete</a></td>
             </tr>
         {% endfor %}
     </table>
+    <p>To edit website content, please go to the page to are going to edit on.</p>
 {% endblock %}

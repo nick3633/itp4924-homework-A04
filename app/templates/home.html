@@ -23,9 +23,9 @@
                     <div class="caption">
                         <div class="media">
                             <div class="media-left">
-                                <a href="#">
+                                <!--<a href="#">
                                     <img class="media-object" src="{{ block.icon }} width=">
-                                </a>
+                                </a>-->
                             </div>
                             <div class="media-body">
                                 <h4 class="media-heading">{{ block.title }}</h4>
@@ -33,7 +33,7 @@
                                 {% if current_user.is_authenticated %}
                                     <hr>
                                     <p>block id: {{ block.id }} <br> edited by: {{ block.editor_user_id }}
-                                        <br> on {{ block.edited_time }}</p>
+                                        <br> {{ moment(block.edited_time).fromNow() }}</p>
                                     <a href="{{ url_for('home_func_blk_edit', id=block.id) }}">edit/delete</a>
                                 {% endif %}
                             </div>
@@ -67,7 +67,7 @@
                         {% if current_user.is_authenticated %}
                             <hr>
                             <p>block id: {{ block.id }} <br> edited by: {{ block.editor_user_id }} <br>
-                                on {{ block.edited_time }}</p>
+                                {{ moment(block.edited_time).fromNow() }}</p>
                             <a href="{{ url_for('home_about_blk_edit', id=block.id) }}">edit/delete</a>
                         {% endif %}
                     </div>
@@ -88,7 +88,7 @@
                 {% if current_user.is_authenticated %}
                     <hr>
                     <p>block id: {{ block.id }} <br> edited by: {{ block.editor_user_id }} <br>
-                        on {{ block.edited_time }}</p>
+                        {{ moment(block.edited_time).fromNow() }}</p>
                     <a href="{{ url_for('home_client_blk_edit', id=block.id) }}">edit/delete</a>
                 {% endif %}
             </div>

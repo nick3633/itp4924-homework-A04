@@ -217,6 +217,7 @@ def about_net_blk_edit(id):
             net_edit.link = form_about_net_block_edit.link.data
             net_edit.link_text = form_about_net_block_edit.link_text.data
             net_edit.edited_time = datetime.utcnow()
+            net_edit.editor_user_id = current_user.user_id
 
             db.session.commit()
             flash('edited content id: ' + id + ' on net block in about.html')

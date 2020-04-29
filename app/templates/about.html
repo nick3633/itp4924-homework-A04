@@ -28,7 +28,7 @@
                             {% if current_user.is_authenticated %}
                                 <hr>
                                 <p>block id: {{ block.id }} <br> edited by: {{ block.editor_user_id }}
-                                    <br> on {{ block.edited_time }}</p>
+                                    <br>{{ moment(block.edited_time).fromNow() }}</p>
                                 <a href="{{ url_for('about_net_blk_edit', id=block.id) }}">edit/delete</a>
                             {% endif %}
                         </div>
