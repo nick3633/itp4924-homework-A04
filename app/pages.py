@@ -68,9 +68,9 @@ def home_func_blk_edit(id):
         return redirect(url_for('home'))
     elif request.method == 'GET':
 
-        form_home_func_block_edit.title.data = str(db.session.query(home_functions_block.title).filter_by(id=id).first())
-        form_home_func_block_edit.icon.data = str(db.session.query(home_functions_block.icon).filter_by(id=id).first())
-        form_home_func_block_edit.content.data = str(db.session.query(home_functions_block.content).filter_by(id=id).first())
+        form_home_func_block_edit.title.data = db.session.query(home_functions_block.title).filter_by(id=id).first()
+        form_home_func_block_edit.icon.data = db.session.query(home_functions_block.icon).filter_by(id=id).first()
+        form_home_func_block_edit.content.data = db.session.query(home_functions_block.content).filter_by(id=id).first()
 
     return render_template('home_function_block_edit.html', title='Editing block Functions in home.html',
                            form_home_func_block_edit=form_home_func_block_edit, id=id)
@@ -125,11 +125,11 @@ def home_about_blk_edit(id):
             flash('deleted content id: ' + id + ' on about block in home.html')
         return redirect(url_for('home'))
     elif request.method == 'GET':
-        form_home_about_block_edit.title.data = str(db.session.query(home_about_block.title).filter_by(id=id).first())
-        form_home_about_block_edit.image.data = str(db.session.query(home_about_block.image).filter_by(id=id).first())
-        form_home_about_block_edit.content.data = str(db.session.query(home_about_block.content).filter_by(id=id).first())
-        form_home_about_block_edit.link.data = str(db.session.query(home_about_block.link).filter_by(id=id).first())
-        form_home_about_block_edit.link_text.data = str(db.session.query(home_about_block.link_text).filter_by(id=id).first())
+        form_home_about_block_edit.title.data = db.session.query(home_about_block.title).filter_by(id=id).first()
+        form_home_about_block_edit.image.data = db.session.query(home_about_block.image).filter_by(id=id).first()
+        form_home_about_block_edit.content.data = db.session.query(home_about_block.content).filter_by(id=id).first()
+        form_home_about_block_edit.link.data = db.session.query(home_about_block.link).filter_by(id=id).first()
+        form_home_about_block_edit.link_text.data = db.session.query(home_about_block.link_text).filter_by(id=id).first()
 
     return render_template('home_about_block_edit.html', title='Editing block About in home.html',
                            form_home_about_block_edit=form_home_about_block_edit, id=id)
@@ -175,7 +175,7 @@ def home_client_blk_edit(id):
             flash('deleted content id: ' + id + ' on client block in home.html')
         return redirect(url_for('home'))
     elif request.method == 'GET':
-        form_home_client_block_edit.client_logo.data = str(db.session.query(home_client_block.client_logo).filter_by(id=id).first())
+        form_home_client_block_edit.client_logo.data = db.session.query(home_client_block.client_logo).filter_by(id=id).first()
 
     return render_template('home_client_block_edit.html', title='Editing block Client in home.html',
                            form_home_client_block_edit=form_home_client_block_edit, id=id)

@@ -29,7 +29,7 @@
                             </div>
                             <div class="media-body">
                                 <h4 class="media-heading">{{ block.title }}</h4>
-                                {{ block.content }}
+                                {{ block.content|safe }}
                                 {% if current_user.is_authenticated %}
                                     <hr>
                                     <p>block id: {{ block.id }} <br> edited by: {{ block.editor_user_id }}
@@ -59,7 +59,7 @@
                 <div class="col-sm-6 col-md-6">
                     <div class="caption">
                         <h3>{{ block.title }}</h3>
-                        <p>{{ block.content }}</p>
+                        <p>{{ block.content|safe }}</p>
                         {% if block.link != '' %}
                             <p><a href="{{ block.link }}" class="btn btn-primary"
                                   role="button">{{ block.link_text }}</a></p>
