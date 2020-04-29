@@ -67,10 +67,10 @@ def home_func_blk_edit(id):
             # https://stackoverflow.com/questions/27158573/how-to-delete-a-record-by-id-in-flask-sqlalchemy (4/9/2020 4:x9PM)
         return redirect(url_for('home'))
     elif request.method == 'GET':
-
-        form_home_func_block_edit.title.data = db.session.query(home_functions_block.title).filter_by(id=id).first()
-        form_home_func_block_edit.icon.data = db.session.query(home_functions_block.icon).filter_by(id=id).first()
-        form_home_func_block_edit.content.data = db.session.query(home_functions_block.content).filter_by(id=id).first()
+        get_value = home_functions_block.query.filter_by(id=id).first()
+        form_home_func_block_edit.title.data = get_value.title
+        form_home_func_block_edit.icon.data = get_value.icon
+        form_home_func_block_edit.content.data = get_value.content
 
     return render_template('home_function_block_edit.html', title='Editing block Functions in home.html',
                            form_home_func_block_edit=form_home_func_block_edit, id=id)
@@ -125,11 +125,12 @@ def home_about_blk_edit(id):
             flash('deleted content id: ' + id + ' on about block in home.html')
         return redirect(url_for('home'))
     elif request.method == 'GET':
-        form_home_about_block_edit.title.data = db.session.query(home_about_block.title).filter_by(id=id).first()
-        form_home_about_block_edit.image.data = db.session.query(home_about_block.image).filter_by(id=id).first()
-        form_home_about_block_edit.content.data = db.session.query(home_about_block.content).filter_by(id=id).first()
-        form_home_about_block_edit.link.data = db.session.query(home_about_block.link).filter_by(id=id).first()
-        form_home_about_block_edit.link_text.data = db.session.query(home_about_block.link_text).filter_by(id=id).first()
+        get_value = home_about_block.query.filter_by(id=id).first()
+        form_home_about_block_edit.title.data = get_value.title
+        form_home_about_block_edit.image.data = get_value.image
+        form_home_about_block_edit.content.data = get_value.content
+        form_home_about_block_edit.link.data = get_value.link
+        form_home_about_block_edit.link_text.data = get_value.link_text
 
     return render_template('home_about_block_edit.html', title='Editing block About in home.html',
                            form_home_about_block_edit=form_home_about_block_edit, id=id)
@@ -175,7 +176,8 @@ def home_client_blk_edit(id):
             flash('deleted content id: ' + id + ' on client block in home.html')
         return redirect(url_for('home'))
     elif request.method == 'GET':
-        form_home_client_block_edit.client_logo.data = db.session.query(home_client_block.client_logo).filter_by(id=id).first()
+        get_value = home_client_block.query.filter_by(id=id).first()
+        form_home_client_block_edit.client_logo.data = get_value.client_logo
 
     return render_template('home_client_block_edit.html', title='Editing block Client in home.html',
                            form_home_client_block_edit=form_home_client_block_edit, id=id)
