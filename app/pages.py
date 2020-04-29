@@ -2,6 +2,7 @@ from flask import render_template, flash, redirect, url_for, request
 from flask_login import login_user, logout_user, current_user, login_required
 from werkzeug.urls import url_parse
 from werkzeug.security import generate_password_hash, check_password_hash
+from datetime import datetime
 from app import app, db
 from app.forms import home_function_block_add, home_about_block_add, home_client_block_add, home_function_block_edit, \
     home_about_block_edit, home_client_block_edit, AdminLoginForm, AddAdminForm
@@ -55,6 +56,7 @@ def home_func_blk_edit(id):
             func_edit.icon = form_home_func_block_edit.icon.data
             func_edit.content = form_home_func_block_edit.content.data
             func_edit.editor_user_id = current_user.user_id
+            func_edit.edited_time = datetime.utcnow()
 
             db.session.commit()
             flash('edited content id: ' + id + ' on functions block in home.html')
@@ -113,6 +115,7 @@ def home_about_blk_edit(id):
             about_edit.link = form_home_about_block_edit.link.data
             about_edit.link_text = form_home_about_block_edit.link_text.data
             about_edit.editor_user_id = current_user.user_id
+            about_edit.edited_time = datetime.utcnow()
 
             db.session.commit()
             flash('edited content id: ' + id + ' on about block in home.html')
@@ -162,6 +165,7 @@ def home_client_blk_edit(id):
             client_edit = home_client_block.query.filter_by(id=id).first()
             client_edit.client_logo = form_home_client_block_edit.client_logo.data
             client_edit.editor_user_id = current_user.user_id
+            client_edit.edited_time = datetime.utcnow()
 
             db.session.commit()
             flash('edited content id: ' + id + ' on client block in home.html')
