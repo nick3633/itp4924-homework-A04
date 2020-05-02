@@ -251,10 +251,10 @@
     <detection-done>true</detection-done>
     <sorting>DEFINITION_ORDER</sorting>
   </component>
-  <component name="ProjectFrameBounds">
-    <option name="x" value="-117" />
-    <option name="y" value="155" />
-    <option name="width" value="1936" />
+  <component name="ProjectFrameBounds" extendedState="6">
+    <option name="x" value="29" />
+    <option name="y" value="-12" />
+    <option name="width" value="1426" />
     <option name="height" value="686" />
   </component>
   <component name="ProjectView">
