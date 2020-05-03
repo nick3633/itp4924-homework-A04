@@ -5,3 +5,4 @@ login user id: test / test2
 password: test
 
 verification key for adding admin is: O8afSh2OHdqyKvJyzeS4XKXQ
+you no need to login to add admin
