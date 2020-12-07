@@ -74,3 +74,15 @@ class about_net_block(db.Model):
 
     def __repr__(self):
         return '<about_net_block> {}'.format(self.id)
+
+
+class architecture_item_block(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(64))
+    content = db.Column(db.String(1024))
+    link = db.Column(db.String(256))
+    editor_user_id = db.Column(db.String(64), db.ForeignKey('admin.user_id'))
+    edited_time = db.Column(db.DateTime, default=datetime.utcnow)
+
+    def __repr__(self):
+        return '<about_net_block> {}'.format(self.id)

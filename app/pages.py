@@ -236,6 +236,11 @@ def about_net_blk_edit(id):
 
     return render_template('about_net_block_edit.html', title='Editing block net in about.html',
                            form_about_net_block_edit=form_about_net_block_edit, id=id)
+                           
+                           
+@app.route('/architecture', methods=['GET', 'POST'])
+def architecture():
+    return render_template('architecture.html', title='Architecture')
 
 
 @app.route('/admin_home')
