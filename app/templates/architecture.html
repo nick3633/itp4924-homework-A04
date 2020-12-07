@@ -17,5 +17,6 @@
     <p>{{ block.editor_user_id }}</p>
     <p>{{ block.edited_time }}</p>
     <p>............</p>
+    <a href="{{ url_for('architecture_item_blk_edit', id=block.id) }}">edit/delete</a>
     {% endfor %}
 {% endblock %}

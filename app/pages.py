@@ -261,6 +261,37 @@ def architecture_item_blk_add():
         flash('content added on item block in architecture.html')
         return redirect(url_for('architecture'))
     return render_template('architecture_item_block_add.html', form_architecture_item_block_add=form_architecture_item_block_add)
+    
+@app.route('/architecture/item_block/edit/<id>', methods=['GET', 'POST'])
+def architecture_item_blk_edit(id):
+    if not current_user.is_authenticated:
+        return redirect(url_for('admin_login'))
+    form_architecture_item_block_edit = architecture_item_block_edit()
+
+    if form_architecture_item_block_edit.validate_on_submit():
+        if form_architecture_item_block_edit.editype.data == 'edit':
+            item_edit = architecture_item_block.query.filter_by(id=id).first()
+            item_edit.title = form_architecture_item_block_edit.title.data
+            item_edit.content = form_architecture_item_block_edit.content.data
+            item_edit.link = form_architecture_item_block_edit.link.data
+            item_edit.edited_time = datetime.utcnow()
+            item_edit.editor_user_id = current_user.user_id
+
+            db.session.commit()
+            flash('edited content id: ' + id + ' on item block in architecture.html')
+        elif form_architecture_item_block_edit.editype.data == 'delete':
+            architecture_item_block.query.filter_by(id=id).delete()
+            db.session.commit()
+            flash('deleted content id: ' + id + ' on item block in architecture.html')
+        return redirect(url_for('architecture'))
+    elif request.method == 'GET':
+        get_value = architecture_item_block.query.filter_by(id=id).first()
+        form_architecture_item_block_edit.title.data = get_value.title
+        form_architecture_item_block_edit.content.data = get_value.content
+        form_architecture_item_block_edit.link.data = get_value.link
+
+    return render_template('architecture_item_block_edit.html', title='Editing block item in architecture.html',
+                           form_architecture_item_block_edit=form_architecture_item_block_edit, id=id)
 
 
 @app.route('/admin_home')
