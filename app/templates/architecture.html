@@ -9,14 +9,22 @@
     {% if current_user.is_authenticated %}
         <p>item block<br><a href="{{ url_for('architecture_item_blk_add') }}">add content to item block</a></p>
     {% endif %}
-    {% for block in architecture_item_block %}
-    <p>{{ block.id }}</p>
-    <p>{{ block.title }}</p>
-    <p>{{ block.content }}</p>
-    <p>{{ block.link }}</p>
-    <p>{{ block.editor_user_id }}</p>
-    <p>{{ block.edited_time }}</p>
-    <p>............</p>
-    <a href="{{ url_for('architecture_item_blk_edit', id=block.id) }}">edit/delete</a>
-    {% endfor %}
+    <div class="row">
+        <div class="col-sm-6 col-md-4"> 
+            {% for block in architecture_item_block %}
+                <div class="thumbnail">
+                    <a href="{{ block.link }}" class="caption" style="display: block;">
+                        <h3>{{ block.title }}</h3>
+                        <p>{{ block.content }}</p> 
+                    </a>
+                    {% if current_user.is_authenticated %}
+                        <hr>
+                        <p>block id: {{ block.id }} <br> edited by: {{ block.editor_user_id }}
+                            <br> {{ moment(block.edited_time).fromNow() }}</p>
+                        <a href="{{ url_for('architecture_item_blk_edit', id=block.id) }}">edit/delete</a>
+                    {% endif %}
+                </div>
+            {% endfor %}
+        </div>
+    </div>
 {% endblock %}
