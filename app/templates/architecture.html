@@ -10,21 +10,23 @@
         <p>item block<br><a href="{{ url_for('architecture_item_blk_add') }}">add content to item block</a></p>
     {% endif %}
     <div class="row">
-        <div class="col-sm-6 col-md-4"> 
-            {% for block in architecture_item_block %}
+        {% for block in architecture_item_block %}
+            <div class="col-sm-6 col-md-4"> 
                 <div class="thumbnail">
-                    <a href="{{ block.link }}" class="caption" style="display: block;">
-                        <h3>{{ block.title }}</h3>
-                        <p>{{ block.content }}</p> 
+                    <a href="{{ block.link }}" class="caption" style="display: block; min-height: 108px;">
+                        <h3 style="margin-top: 0;">{{ block.title }}</h3>
+                        <h5 style="margin-bottom: 0;">{{ block.content }}</h5> 
                     </a>
                     {% if current_user.is_authenticated %}
-                        <hr>
-                        <p>block id: {{ block.id }} <br> edited by: {{ block.editor_user_id }}
-                            <br> {{ moment(block.edited_time).fromNow() }}</p>
-                        <a href="{{ url_for('architecture_item_blk_edit', id=block.id) }}">edit/delete</a>
+                        <div class="caption">
+                            <hr>
+                            <p>block id: {{ block.id }} <br> edited by: {{ block.editor_user_id }}
+                                <br> {{ moment(block.edited_time).fromNow() }}</p>
+                            <a href="{{ url_for('architecture_item_blk_edit', id=block.id) }}">edit/delete</a>
+                        </div>
                     {% endif %}
                 </div>
-            {% endfor %}
-        </div>
+            </div>
+        {% endfor %}
     </div>
 {% endblock %}
