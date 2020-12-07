@@ -240,7 +240,27 @@ def about_net_blk_edit(id):
                            
 @app.route('/architecture', methods=['GET', 'POST'])
 def architecture():
-    return render_template('architecture.html', title='Architecture')
+    architecture_item_block_load = architecture_item_block.query
+    return render_template('architecture.html', title='Architecture', architecture_item_block=architecture_item_block_load)
+    
+@app.route('/architecture/item_block/add', methods=['GET', 'POST'])
+def architecture_item_blk_add():
+    if not current_user.is_authenticated:
+        return redirect(url_for('admin_login'))
+    
+    form_architecture_item_block_add = architecture_item_block_add()
+    if form_architecture_item_block_add.validate_on_submit():
+        item_add = architecture_item_block(
+            title = form_architecture_item_block_add.title.data,
+            content = form_architecture_item_block_add.content.data,
+            link = form_architecture_item_block_add.link.data,
+            editor_user_id = current_user.user_id
+        )
+        db.session.add(item_add)
+        db.session.commit()
+        flash('content added on item block in architecture.html')
+        return redirect(url_for('architecture'))
+    return render_template('architecture_item_block_add.html', form_architecture_item_block_add=form_architecture_item_block_add)
 
 
 @app.route('/admin_home')

@@ -61,6 +61,13 @@ class about_net_block_edit(FlaskForm):
     link_text = StringField('Link Text')
     editype = SelectField('Action ', choices=[('edit', 'Edit'), ('delete', 'Delete')], validators=[DataRequired()])
     submit = SubmitField('Apply')
+    
+
+class architecture_item_block_add(FlaskForm):
+    title = StringField('Title', validators=[DataRequired()])
+    content = TextAreaField('Content', validators=[DataRequired()])
+    link = StringField('Link', validators=[DataRequired()])
+    submit = SubmitField('Apply')
 
 
 class AdminLoginForm(FlaskForm):

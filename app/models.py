@@ -85,4 +85,4 @@ class architecture_item_block(db.Model):
     edited_time = db.Column(db.DateTime, default=datetime.utcnow)
 
     def __repr__(self):
-        return '<about_net_block> {}'.format(self.id)
+        return '<architecture_item_block> {}'.format(self.id)

@@ -6,5 +6,16 @@
     </div>
 
 
-    
+    {% if current_user.is_authenticated %}
+        <p>item block<br><a href="{{ url_for('architecture_item_blk_add') }}">add content to item block</a></p>
+    {% endif %}
+    {% for block in architecture_item_block %}
+    <p>{{ block.id }}</p>
+    <p>{{ block.title }}</p>
+    <p>{{ block.content }}</p>
+    <p>{{ block.link }}</p>
+    <p>{{ block.editor_user_id }}</p>
+    <p>{{ block.edited_time }}</p>
+    <p>............</p>
+    {% endfor %}
 {% endblock %}
