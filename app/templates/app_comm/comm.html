@@ -4,5 +4,35 @@
         <h1 align="center">.NET Developer Community</h1>
         <h4 align="center">Meet like-minded developers, connect with the .NET team, find podcasts, and more.</h4>
     </div>
+    <hr>
+    
+    {% if current_user.is_authenticated %}
+        <p>method block<br><a href="{{ url_for('comm_method_blk_add') }}">add content to method block</a></p>
+    {% endif %}
+    {% for block in comm_method_block %}
+        <div class="thumbnail">
+            <div class="row">
+                <div class="col-sm-4 col-md-6">
+                    <div style="height: 200px; background-image: url('{{ block.image }}'); background-size: contain; background-position: center; background-repeat: no-repeat;"></div>
+                </div>
+                <div class="col-sm-6 col-md-6">
+                    <div class="caption">
+                        <h3>{{ block.title }}</h3>
+                        <p>{{ block.content }}</p>
+                        {% if block.link != '' %}
+                            <p><a href="{{ block.link }}" class="btn btn-primary"
+                                  role="button">{{ block.link_text }}</a></p>
+                        {% endif %}
+                        {% if current_user.is_authenticated %}
+                            <hr>
+                            <p>block id: {{ block.id }} <br> edited by: {{ block.editor_user_id }} <br>
+                                {{ moment(block.edited_time).fromNow() }}</p>
+                            <a href="{{ url_for('comm_method_blk_edit', id=block.id) }}">edit/delete</a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
 
 {% endblock %}
