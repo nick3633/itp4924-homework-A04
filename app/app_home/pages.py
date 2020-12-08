@@ -19,7 +19,7 @@ def home():
     home_about_block_load = home_about_block.query
     home_client_block_load = home_client_block.query
 
-    return render_template('home.html', title='',
+    return render_template('app_home/home.html', title='',
                            home_function_block=home_function_block_load, home_about_block=home_about_block_load,
                            home_client_block=home_client_block_load)
 
@@ -43,7 +43,7 @@ def home_func_blk_add():
         flash('content added on functions block in home.html')
         return redirect(url_for('home'))
 
-    return render_template('home_function_block_add.html', form_home_func_block_add=form_home_func_block_add)
+    return render_template('app_home/home_function_block_add.html', form_home_func_block_add=form_home_func_block_add)
 
 
 @app.route('/home/function_block/edit/<id>', methods=['GET', 'POST'])
@@ -75,7 +75,7 @@ def home_func_blk_edit(id):
         form_home_func_block_edit.icon.data = get_value.icon
         form_home_func_block_edit.content.data = get_value.content
 
-    return render_template('home_function_block_edit.html', title='Editing block Functions in home.html',
+    return render_template('app_home/home_function_block_edit.html', title='Editing block Functions in home.html',
                            form_home_func_block_edit=form_home_func_block_edit, id=id)
 
 
@@ -100,7 +100,7 @@ def home_about_blk_add():
         flash('content added on about block in home.html')
         return redirect(url_for('home'))
 
-    return render_template('home_about_block_add.html', form_home_about_block_add=form_home_about_block_add)
+    return render_template('app_home/home_about_block_add.html', form_home_about_block_add=form_home_about_block_add)
 
 
 @app.route('/home/about_block/edit/<id>', methods=['GET', 'POST'])
@@ -135,7 +135,7 @@ def home_about_blk_edit(id):
         form_home_about_block_edit.link.data = get_value.link
         form_home_about_block_edit.link_text.data = get_value.link_text
 
-    return render_template('home_about_block_edit.html', title='Editing block About in home.html',
+    return render_template('app_home/home_about_block_edit.html', title='Editing block About in home.html',
                            form_home_about_block_edit=form_home_about_block_edit, id=id)
 
 
@@ -155,7 +155,7 @@ def home_client_blk_add():
         flash('content added on client block in home.html')
         return redirect(url_for('home'))
 
-    return render_template('home_client_block_add.html', form_home_client_block_add=form_home_client_block_add)
+    return render_template('app_home/home_client_block_add.html', form_home_client_block_add=form_home_client_block_add)
 
 
 @app.route('/home/client_block/edit/<id>', methods=['GET', 'POST'])
@@ -182,5 +182,5 @@ def home_client_blk_edit(id):
         get_value = home_client_block.query.filter_by(id=id).first()
         form_home_client_block_edit.client_logo.data = get_value.client_logo
 
-    return render_template('home_client_block_edit.html', title='Editing block Client in home.html',
+    return render_template('app_home/home_client_block_edit.html', title='Editing block Client in home.html',
                            form_home_client_block_edit=form_home_client_block_edit, id=id)

@@ -17,7 +17,7 @@ def architecture():
     architecture_item_block_load = architecture_item_block.query
     architecture_ebook_block_load = architecture_ebook_block.query
     return render_template(
-        'architecture.html', title='Architecture',
+        'app_architecture/architecture.html', title='Architecture',
         architecture_item_block=architecture_item_block_load,
         architecture_ebook_block=architecture_ebook_block_load
     )
@@ -40,7 +40,7 @@ def architecture_item_blk_add():
         db.session.commit()
         flash('content added on item block in architecture.html')
         return redirect(url_for('architecture'))
-    return render_template('architecture_item_block_add.html', form_architecture_item_block_add=form_architecture_item_block_add)
+    return render_template('app_architecture/architecture_item_block_add.html', form_architecture_item_block_add=form_architecture_item_block_add)
 
 
 @app.route('/architecture/item_block/edit/<id>', methods=['GET', 'POST'])
@@ -71,7 +71,7 @@ def architecture_item_blk_edit(id):
         form_architecture_item_block_edit.content.data = get_value.content
         form_architecture_item_block_edit.link.data = get_value.link
 
-    return render_template('architecture_item_block_edit.html', title='Editing block item in architecture.html',
+    return render_template('app_architecture/architecture_item_block_edit.html', title='Editing block item in architecture.html',
                            form_architecture_item_block_edit=form_architecture_item_block_edit, id=id)
 
 
@@ -91,7 +91,7 @@ def architecture_ebook_blk_add():
         db.session.commit()
         flash('content added on ebook block in architecture.html')
         return redirect(url_for('architecture'))
-    return render_template('architecture_ebook_block_add.html', form_architecture_ebook_block_add=form_architecture_ebook_block_add)
+    return render_template('app_architecture/architecture_ebook_block_add.html', form_architecture_ebook_block_add=form_architecture_ebook_block_add)
 
 
 @app.route('/architecture/ebook_block/edit/<id>', methods=['GET', 'POST'])
@@ -120,5 +120,5 @@ def architecture_ebook_blk_edit(id):
         form_architecture_ebook_block_edit.cover_url.data = get_value.cover_url
         form_architecture_ebook_block_edit.link.data = get_value.link
 
-    return render_template('architecture_ebook_block_edit.html', title='Editing block ebook in architecture.html',
+    return render_template('app_architecture/architecture_ebook_block_edit.html', title='Editing block ebook in architecture.html',
                            form_architecture_ebook_block_edit=form_architecture_ebook_block_edit, id=id)

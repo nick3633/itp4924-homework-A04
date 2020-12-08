@@ -14,7 +14,7 @@ from app.app_about.models import about_net_block
 @app.route('/about', methods=['GET', 'POST'])
 def about():
     about_net_block_load = about_net_block.query
-    return render_template('about.html', title='About', about_net_block=about_net_block_load)
+    return render_template('app_about/about.html', title='About', about_net_block=about_net_block_load)
 
 
 @app.route('/about/net_block/add', methods=['GET', 'POST'])
@@ -36,7 +36,7 @@ def about_net_blk_add():
         db.session.commit()
         flash('content added on net block in about.html')
         return redirect(url_for('about'))
-    return render_template('about_net_block_add.html', form_about_net_block_add=form_about_net_block_add)
+    return render_template('app_about/about_net_block_add.html', form_about_net_block_add=form_about_net_block_add)
 
 
 @app.route('/about/net_block/edit/<id>', methods=['GET', 'POST'])
@@ -71,5 +71,5 @@ def about_net_blk_edit(id):
         form_about_net_block_edit.link.data = get_value.link
         form_about_net_block_edit.link_text.data = get_value.link_text
 
-    return render_template('about_net_block_edit.html', title='Editing block net in about.html',
+    return render_template('app_about/about_net_block_edit.html', title='Editing block net in about.html',
                            form_about_net_block_edit=form_about_net_block_edit, id=id)

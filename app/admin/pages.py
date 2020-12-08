@@ -16,7 +16,7 @@ def admin_home():
     if not current_user.is_authenticated:
         return redirect(url_for('admin_login'))
     admin_list = Admin.query
-    return render_template('admin_home.html', title='Admin Home - ', admin_list=admin_list)
+    return render_template('admin/admin_home.html', title='Admin Home - ', admin_list=admin_list)
 
 
 @app.route('/admin_login', methods=['GET', 'POST'])
@@ -32,7 +32,7 @@ def admin_login():
         login_user(user, remember=form.keep_login_status.data)
         # https://stackoverflow.com/questions/37472870/login-user-fails-to-get-user-id (4/7/2020 1:15AM)
         return redirect(url_for('admin_home'))
-    return render_template('admin_login.html', title='Admin Login - ', form=form)
+    return render_template('admin/admin_login.html', title='Admin Login - ', form=form)
 
 
 @app.route('/admin_logout')
@@ -62,4 +62,4 @@ def add_admin():
         db.session.commit()
         flash('Added a new admin.')
         return redirect(url_for('admin_home'))
-    return render_template('add_admin.html', title='Add Admin - ', form=form)
+    return render_template('admin/add_admin.html', title='Add Admin - ', form=form)
