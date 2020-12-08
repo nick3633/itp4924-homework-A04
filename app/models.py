@@ -16,3 +16,4 @@ from app.admin.models import *
 from app.app_about.models import *
 from app.app_architecture.models import *
 from app.app_home.models import *
+from app.app_learn.models import *

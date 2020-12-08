@@ -1,8 +1,35 @@
 {% extends "template.html" %}
 {% block app_content %}
     <div class="jumbotron" style="background-color: purple; color: white;">
-        <h1 align="center">.NET Architecture Guides</h1>
-        <h2 align="center">Learn how to build production-ready .NET apps with free application architecture guidance.</h2>
+        <h1 align="center">Learn .NET</h1>
+        <h2 align="center">Free tutorials, videos, courses, and more for beginner through advanced .NET developers.</h2>
+    </div>
+    
+    <center><h2>Get Started</h2></center>
+    <center><p>New to .NET and don't know where to start? You can try .NET in your browser, at the console on your machine, or by building the app of your choice.</p></center>
+    
+    {% if current_user.is_authenticated %}
+        <p>tutor block<br><a href="{{ url_for('learn_tutor_blk_add') }}">add content to tutor block</a></p>
+    {% endif %}
+    <div class="row">
+        {% for block in learn_tutor_block %}
+            <div class="col-sm-6 col-md-4"> 
+                <div class="thumbnail">
+                    <a href="{{ block.link }}" class="caption" style="display: block; min-height: 108px;">
+                        <h3 style="margin-top: 0;">{{ block.title }}</h3>
+                        <h5 style="margin-bottom: 0;">{{ block.content }}</h5> 
+                    </a>
+                    {% if current_user.is_authenticated %}
+                        <div class="caption">
+                            <hr>
+                            <p>block id: {{ block.id }} <br> edited by: {{ block.editor_user_id }}
+                                <br> {{ moment(block.edited_time).fromNow() }}</p>
+                            <a href="{{ url_for('learn_tutor_blk_edit', id=block.id) }}">edit/delete</a>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        {% endfor %}
     </div>
 
 {% endblock %}
