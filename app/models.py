@@ -12,3 +12,7 @@ def load_user(user_id):
     return Admin.query.get(user_id)
 
 
+from app.admin.models import *
+from app.app_about.models import *
+from app.app_architecture.models import *
+from app.app_home.models import *
