@@ -23,7 +23,7 @@
                     <li><a href="{{ url_for('architecture') }}">Architecture</a></li>
                     <li><a href="#">Docs</a></li>
                     <li><a href="#">Downloads</a></li>
-                    <li><a href="#">Community</a></li>
+                    <li><a href="{{ url_for('comm') }}">Community</a></li>
                     <li><a href="#">Get Started</a></li>
                 </ul>
                 {% if current_user.is_authenticated %}

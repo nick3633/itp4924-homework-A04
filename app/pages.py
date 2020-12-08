@@ -24,3 +24,4 @@ from app.app_about.pages import *
 from app.app_architecture.pages import *
 from app.app_home.pages import *
 from app.app_learn.pages import *
+from app.app_comm.pages import *
