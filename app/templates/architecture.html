@@ -29,4 +29,18 @@
             </div>
         {% endfor %}
     </div>
+    
+    
+    {% if current_user.is_authenticated %}
+        <p>item block<br><a href="{{ url_for('architecture_ebook_blk_add') }}">add content to ebook block</a></p>
+    {% endif %}
+    {% for block in architecture_ebook_block %}
+        <p>{{ block.cover_url }}</p>
+        <p>{{ block.link }}</p>
+        <p>{{ block.id }}</p>
+        <p>{{ block.editor_user_id }}</p>
+        <p>{{ moment(block.edited_time).fromNow() }}</p>
+        <a href="{{ url_for('architecture_ebook_blk_edit', id=block.id) }}">edit/delete</a>
+        <p>...</p>
+    {% endfor %}
 {% endblock %}

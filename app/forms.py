@@ -69,9 +69,20 @@ class architecture_item_block_add(FlaskForm):
     link = StringField('Link', validators=[DataRequired()])
     submit = SubmitField('Apply')
     
+class architecture_ebook_block_add(FlaskForm):
+    cover_url = StringField('Cover url', validators=[DataRequired()])
+    link = StringField('Link', validators=[DataRequired()])
+    submit = SubmitField('Apply')
+    
 class architecture_item_block_edit(FlaskForm):
     title = StringField('Title', validators=[DataRequired()])
     content = TextAreaField('Content', validators=[DataRequired()])
+    link = StringField('Link', validators=[DataRequired()])
+    editype = SelectField('Action ', choices=[('edit', 'Edit'), ('delete', 'Delete')], validators=[DataRequired()])
+    submit = SubmitField('Apply')
+    
+class architecture_ebook_block_edit(FlaskForm):
+    cover_url = StringField('Cover url', validators=[DataRequired()])
     link = StringField('Link', validators=[DataRequired()])
     editype = SelectField('Action ', choices=[('edit', 'Edit'), ('delete', 'Delete')], validators=[DataRequired()])
     submit = SubmitField('Apply')
