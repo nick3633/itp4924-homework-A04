@@ -81,21 +81,26 @@
         <p>res block<br><a href="{{ url_for('learn_res_blk_add') }}">add content to res block</a></p>
     {% endif %}
     {% for block in learn_res_block %}
-        <p>{{ block.title }}</p>
-        <p>{{ block.image }}</p>
-        <p>{{ block.content }}</p>
-        <p>{{ block.link }}</p>
-        <p>{{ block.link_text }}</p>
-        {% if current_user.is_authenticated %}
-            <div class="caption">
-                <hr>
-                <p>block id: {{ block.id }} <br> edited by: {{ block.editor_user_id }}
-                    <br> {{ moment(block.edited_time).fromNow() }}</p>
-                <a href="{{ url_for('learn_res_blk_edit', id=block.id) }}">edit/delete</a>
+        <div class="col-sm-6 col-md-4">
+            <div class="thumbnail">
+                <img src="{{ block.image }}" alt="{{ block.image }}">
+                <div class="caption">
+                    <h3>{{ block.title }}</h3>
+                    <p>{{ block.content }}</p>
+                    <p><a href="{{ block.link }}">{{ block.link_text }}</a></p>
+                </div>
             </div>
-        {% endif %}
-        <p>........</p>
+            {% if current_user.is_authenticated %}
+                <div class="caption">
+                    <hr>
+                    <p>block id: {{ block.id }} <br> edited by: {{ block.editor_user_id }}
+                        <br> {{ moment(block.edited_time).fromNow() }}</p>
+                    <a href="{{ url_for('learn_res_blk_edit', id=block.id) }}">edit/delete</a>
+                </div>
+            {% endif %}
+        </div>
     {% endfor %}
+    <hr>
     
 
 {% endblock %}
