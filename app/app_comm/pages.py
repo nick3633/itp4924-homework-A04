@@ -15,10 +15,12 @@ from app.app_comm.forms import *
 @app.route('/comm', methods=['GET', 'POST'])
 def comm():
     comm_method_block_load = comm_method_block.query
+    comm_platform_block_load = comm_platform_block.query
     return render_template(
         'app_comm/comm.html',
         title='Community',
-        comm_method_block=comm_method_block_load
+        comm_method_block=comm_method_block_load,
+        comm_platform_block=comm_platform_block_load
     )
     
     
@@ -80,3 +82,65 @@ def comm_method_blk_edit(id):
 
     return render_template('app_comm/comm_method_block_edit.html', title='Editing block method in comm.html',
                            form_comm_method_block_edit=form_comm_method_block_edit, id=id)
+                           
+                           
+                           
+                           
+@app.route('/comm/platform_block/add', methods=['GET', 'POST'])
+def comm_platform_blk_add():
+    if not current_user.is_authenticated:
+        return redirect(url_for('admin_login'))
+
+    form_comm_platform_block_add = comm_platform_block_add()
+
+    if form_comm_platform_block_add.validate_on_submit():
+        platform_add = comm_platform_block(
+            title=form_comm_platform_block_add.title.data,
+            icon=form_comm_platform_block_add.icon.data,
+            content=form_comm_platform_block_add.content.data,
+            link=form_comm_platform_block_add.link.data,
+            link_text=form_comm_platform_block_add.link_text.data,
+            editor_user_id=current_user.user_id
+        )
+        db.session.add(platform_add)
+        db.session.commit()
+        flash('content added on platform block in comm.html')
+        return redirect(url_for('comm'))
+
+    return render_template('app_comm/comm_platform_block_add.html', form_comm_platform_block_add=form_comm_platform_block_add)
+
+
+@app.route('/comm/platform_block/edit/<id>', methods=['GET', 'POST'])
+def comm_platform_blk_edit(id):
+    if not current_user.is_authenticated:
+        return redirect(url_for('admin_login'))
+    form_comm_platform_block_edit = comm_platform_block_edit()
+
+    if form_comm_platform_block_edit.validate_on_submit():
+        if form_comm_platform_block_edit.editype.data == 'edit':
+            platform_edit = comm_platform_block.query.filter_by(id=id).first()
+            platform_edit.title = form_comm_platform_block_edit.title.data
+            platform_edit.icon = form_comm_platform_block_edit.icon.data
+            platform_edit.content = form_comm_platform_block_edit.content.data
+            platform_edit.link = form_comm_platform_block_edit.link.data
+            platform_edit.link_text = form_comm_platform_block_edit.link_text.data
+            platform_edit.editor_user_id = current_user.user_id
+            platform_edit.edited_time = datetime.utcnow()
+
+            db.session.commit()
+            flash('edited content id: ' + id + ' on platform block in comm.html')
+        elif form_comm_platform_block_edit.editype.data == 'delete':
+            comm_platform_block.query.filter_by(id=id).delete()
+            db.session.commit()
+            flash('deleted content id: ' + id + ' on platform block in comm.html')
+        return redirect(url_for('comm'))
+    elif request.method == 'GET':
+        get_value = comm_platform_block.query.filter_by(id=id).first()
+        form_comm_platform_block_edit.title.data = get_value.title
+        form_comm_platform_block_edit.icon.data = get_value.icon
+        form_comm_platform_block_edit.content.data = get_value.content
+        form_comm_platform_block_edit.link.data = get_value.link
+        form_comm_platform_block_edit.link_text.data = get_value.link_text
+
+    return render_template('app_comm/comm_platform_block_edit.html', title='Editing block platform in comm.html',
+                           form_comm_platform_block_edit=form_comm_platform_block_edit, id=id)

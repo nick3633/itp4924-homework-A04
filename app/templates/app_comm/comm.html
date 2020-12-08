@@ -34,5 +34,30 @@
             </div>
         </div>
     {% endfor %}
+    <br>
+    
+    {% if current_user.is_authenticated %}
+        <p>platform block<br><a href="{{ url_for('comm_platform_blk_add') }}">add content to platform block</a></p>
+    {% endif %}
+    {% for block in comm_platform_block %}
+        <div class="col-sm-6 col-md-4">
+            <div class="media">
+                <div class="media-left">
+                    <img class="media-object" src="{{ block.icon }}" width="64" height="64">
+                </div>
+                <div class="media-body">
+                    <h4 class="media-heading">{{ block.title }}</h4>
+                    <p>{{ block.content }}</p>
+                    <p><a href="{{ block.link }}">{{ block.link_text }}</a></p>
+                </div>
+            </div>
+            {% if current_user.is_authenticated %}
+                <hr>
+                <p>block id: {{ block.id }} <br> edited by: {{ block.editor_user_id }} <br>
+                    {{ moment(block.edited_time).fromNow() }}</p>
+                <a href="{{ url_for('comm_platform_blk_edit', id=block.id) }}">edit/delete</a>
+            {% endif %}
+        </div>
+    {% endfor %}
 
 {% endblock %}

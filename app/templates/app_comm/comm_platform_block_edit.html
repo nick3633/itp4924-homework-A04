@@ -1,0 +1,8 @@
+{% extends "template.html" %}
+{% import 'bootstrap/wtf.html' as wtf %}
+
+{% block app_content %}
+    <h1>Editing block (id:{{ id }}) content on platform in comm.html</h1>
+    <div class="col-md-6">{{ wtf.quick_form(form_comm_platform_block_edit) }}<hr></div>
+
+{% endblock %}
