@@ -28,7 +28,7 @@ def admin_login():
         user = Admin.query.filter_by(user_id=form.user_id.data).first()
         if user is None or not user.check_password(form.password.data):
             flash('User ID or password is not correct')
-            return render_template('admin_login.html', title='Admin Login - ', form=form)
+            return render_template('admin/admin_login.html', title='Admin Login - ', form=form)
         login_user(user, remember=form.keep_login_status.data)
         # https://stackoverflow.com/questions/37472870/login-user-fails-to-get-user-id (4/7/2020 1:15AM)
         return redirect(url_for('admin_home'))
@@ -49,13 +49,13 @@ def add_admin():
         check_email = Admin.query.filter_by(email=form.email.data).first()
         if check_user is not None:
             flash('This user ID already used.')
-            return render_template('add_admin.html', title='Add Admin - ', form=form)
+            return render_template('admin/add_admin.html', title='Add Admin - ', form=form)
         if check_email is not None:
             flash('This Email already used.')
-            return render_template('add_admin.html', title='Add Admin - ', form=form)
+            return render_template('admin/add_admin.html', title='Add Admin - ', form=form)
         if form.verification_key.data != 'O8afSh2OHdqyKvJyzeS4XKXQ':
             flash('The verification key is not correct.')
-            return render_template('add_admin.html', title='Add Admin - ', form=form)
+            return render_template('admin/add_admin.html', title='Add Admin - ', form=form)
         user = Admin(user_id=form.user_id.data, email=form.email.data)
         user.set_password(form.password.data)
         db.session.add(user)

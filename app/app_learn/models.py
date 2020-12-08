@@ -26,3 +26,16 @@ class learn_material_block(db.Model):
 
     def __repr__(self):
         return '<learn_material_block> {}'.format(self.id)
+        
+class learn_res_block(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(64))
+    image = db.Column(db.String(256))
+    content = db.Column(db.String(1024))
+    link = db.Column(db.String(256))
+    link_text = db.Column(db.String(64))
+    editor_user_id = db.Column(db.String(64), db.ForeignKey('admin.user_id'))
+    edited_time = db.Column(db.DateTime, default=datetime.utcnow)
+
+    def __repr__(self):
+        return '<learn_res_block> {}'.format(self.id)

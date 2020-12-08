@@ -32,6 +32,7 @@
         {% endfor %}
     </div>
     
+    <hr>
     <div class="jumbotron">
         <div class="row">
             <div class="col-sm-6 col-md-6">
@@ -47,6 +48,7 @@
         </div>
     </div>
     
+    <hr>
     <center><h2>Learning Materials</h2></center>
     <center><p>Got the basics and want to learn more? Dig into the developer documentation for the different .NET app types and programming languages.</p></center>
     
@@ -72,5 +74,28 @@
             </div>
         {% endfor %}
     </div>
+    
+    
+    <hr>
+    {% if current_user.is_authenticated %}
+        <p>res block<br><a href="{{ url_for('learn_res_blk_add') }}">add content to res block</a></p>
+    {% endif %}
+    {% for block in learn_res_block %}
+        <p>{{ block.title }}</p>
+        <p>{{ block.image }}</p>
+        <p>{{ block.content }}</p>
+        <p>{{ block.link }}</p>
+        <p>{{ block.link_text }}</p>
+        {% if current_user.is_authenticated %}
+            <div class="caption">
+                <hr>
+                <p>block id: {{ block.id }} <br> edited by: {{ block.editor_user_id }}
+                    <br> {{ moment(block.edited_time).fromNow() }}</p>
+                <a href="{{ url_for('learn_res_blk_edit', id=block.id) }}">edit/delete</a>
+            </div>
+        {% endif %}
+        <p>........</p>
+    {% endfor %}
+    
 
 {% endblock %}
