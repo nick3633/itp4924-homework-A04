@@ -13,7 +13,7 @@
     {% endif %}
     <div class="row">
         {% for block in learn_tutor_block %}
-            <div class="col-sm-6 col-md-4"> 
+            <div class="col-md-3 col-xs-6"> 
                 <div class="thumbnail">
                     <a href="{{ block.link }}" class="caption" style="display: block; min-height: 108px;">
                         <h3 style="margin-top: 0;">{{ block.title }}</h3>
@@ -28,6 +28,47 @@
                         </div>
                     {% endif %}
                 </div>
+            </div>
+        {% endfor %}
+    </div>
+    
+    <div class="jumbotron">
+        <div class="row">
+            <div class="col-sm-6 col-md-6">
+                <div style="height: 200px; background-image: url('https://dotnet.microsoft.com/static/images/illustrations/swimlane-mslearn.jpg?v=PXvUCUiTwY9pZmA2TtnIZQBAzZJYPMwJw8iGd1IIon4'); background-size: contain; background-position: center; background-repeat: no-repeat;"></div>
+            </div>
+            <div class="col-sm-6 col-md-6">
+                <div class="caption">
+                    <h3>Microsoft Learn for .NET</h3>
+                    <p>Discover your path to build apps with .NET on Microsoft Learn. Whether you're just starting or an experienced professional, Microsoft Learn's hands-on approach helps you arrive at your goals faster, with more confidence and at your own pace for free.</p>
+                    <p><a href="https://docs.microsoft.com/learn/dotnet" class="btn btn-primary" role="button">Get started</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <center><h2>Learning Materials</h2></center>
+    <center><p>Got the basics and want to learn more? Dig into the developer documentation for the different .NET app types and programming languages.</p></center>
+    
+    {% if current_user.is_authenticated %}
+        <p>material block<br><a href="{{ url_for('learn_material_blk_add') }}">add content to material block</a></p>
+    {% endif %}
+    <div class="row">
+        {% for block in learn_material_block %}
+            <div class="col-md-3 col-xs-6">
+                <p>
+                    <a href="{{ block.link }}" class="btn btn-primary btn-lg" style="width: 100%; padding: 20px 16px;">
+                        {{ block.title }}
+                    </a>
+                </p>
+                {% if current_user.is_authenticated %}
+                    <div class="caption">
+                        <hr>
+                        <p>block id: {{ block.id }} <br> edited by: {{ block.editor_user_id }}
+                            <br> {{ moment(block.edited_time).fromNow() }}</p>
+                        <a href="{{ url_for('learn_material_blk_edit', id=block.id) }}">edit/delete</a>
+                    </div>
+                {% endif %}
             </div>
         {% endfor %}
     </div>
