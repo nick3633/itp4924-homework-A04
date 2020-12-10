@@ -1,0 +1,11 @@
+sudo docker build -t itp4924-homework-a04:latest .
+sudo docker swarm init
+sudo docker stack deploy -c docker-compose.yml itp4924-homework-a04stack
+
+
+
+sudo docker stack rm itp4924-homework-a04stack
+sudo docker swarm leave --force
+
+
+mysql -u admin -p -h cloud-service-db.cluster-cgkwybhhbctn.us-east-1.rds.amazonaws.com cloud_service_db

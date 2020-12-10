@@ -1,0 +1,42 @@
+version: "3"
+services:
+  web:
+    image: itp4924-homework-a04
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+    ports:
+      - 5000:5000
+    environment:
+      MYSQL_ROOT_PASSWORD: 12345678
+      SECRET_KEY: my-secret-key
+      DATABASE_URL: mysql+pymysql://admin:12345678@cloud-service-db.cluster-cgkwybhhbctn.us-east-1.rds.amazonaws.com:3306/cloud_service_db
+    networks:
+      - webnet
+
+  visualizer:
+    image: dockersamples/visualizer:stable
+    ports:
+      - 8081:8080
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock"
+    deploy:
+      placement:
+        constraints: [node.role == manager]
+    networks:
+      - webnet
+
+  adminer:
+    image: adminer
+    ports:
+      - 8080:8080
+    deploy:
+      placement:
+        constraints: [node.role == manager]
+    networks:
+      - webnet
+
+networks:
+  webnet:
